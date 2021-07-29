@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="menu_eleve_form" model="website.menu">
+		<field name="name">Inscription</field>
+		<field name="url">/eleve/webform</field>
+		<field name="parent_id" ref="website.main_menu"/>
+		<field name="sequence">55</field>
+	</record>
+	<record id="menu_professeur_form" model="website.menu">
+		<field name="name">Professeur</field>
+		<field name="url">/professeur</field>
+		<field name="parent_id" ref="website.main_menu"/>
+		<field name="sequence">56</field>
+	</record>
+	<template id="create_eleve" name="Créer un élève">
+		<t t-call="website.layout">
+			<div class="oe_structure">
+				<div class="container">
+					<h1>Ajouter un élève</h1>
+					<form rol="form" action="/create/webeleve" methode="POST">
+						<input type="hidden" name="csrf_token" t-att-values="request.csrf_token()"/>
+						<div class="form-group">
+							<label for="nom_eleve" class="control_label">Nom</label>
+							<input type="text" name="nom_eleve" t-att-value="nom_eleve" required="required" class="form-control" placeholder="Votre nom et prénom(s)"/>
+						</div>
+						<div class="form-group">
+							<label for="date_naissance" class="control_label">Date de naissance</label>
+							<input type="date" name="date_naissance" t-att-value="date_naissance" class="form-control"/>
+						</div>
+						<div class="form-group">
+							<label for="lieu_naissance" class="control_label">Lieu de naissance</label>
+							<input type="text" name="lieu_naissance" t-att-value="lieu_naissance" class="form-control"/>
+						</div>
+						<div class="form-group">
+							<label for="sexe" class="control_label">Sexe</label>
+							<select t-att-value="sexe" name="sexe" class="form-control">
+								<option value="masculin">Masculin</option>
+								<option value="feminin">Féminin</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="adresse" class="control_label">Adresse</label>
+							<input type="text" name="adresse" t-att-value="adresse" class="form-control"/>
+						</div>
+						<div class="form-group">
+							<label for="classe" class="control_label">Classe</label>
+							<select t-att-value="classe" name="classe" class="form-control">
+								<t t-foreach="classes" t-as="classe">
+									<option t-att-value="classe.id"><t t-esc="classe.name" /></option>
+								</t>
+							</select>
+						</div>
+						<div class="clearfix oe_login_buttons">
+							<button type="submit" class="btn btn-primary pull-left">Envoyer</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</t>
+	</template>
+
+	<record id="eleve_thanks" model="website.page">
+		<field name="name">Merci</field>
+		<field name="type">qweb</field>
+		<field name="url">/eleve/thanks</field>
+		<field name="website_published">True</field>
+		<field name="key">gescoth.eleve_thanks</field>
+		<field name="arch" type="xml">
+			<t name="Thanks" t-name="gescoth.eleve_merci">
+				<t t-call="website.layout">
+					<div id="wrap">
+						<div id="container">
+							<div class="col-lg-8">
+								<div class="alert alert-success" role="status">
+									L'inscription has been sent successfully
+								</div>
+								<p>
+									A bientôt
+								</p>
+							</div>
+						</div>
+					</div>
+				</t>
+			</t>
+		</field>
+	</record>
+
+	<template id="liste_professeur" name="Liste des professeur">
+		<t t-call="website.layout">
+			<div class="oe_structure">
+				<div class="container">
+					<h1>Liste des professeurs</h1>
+					<table class="table table-sm">
+						<tr>
+							<th>Nom et prénom(s)</th><th>Matières enseignées</th>
+						</tr>
+						<t t-foreach="professeurs" t-as="professeur">
+							<tr>
+								<td><t t-esc="professeur.name"/></td>
+								<td>
+									<t t-foreach="professeur.matieres" t-as="matiere">
+										<span t-esc="matiere.name" /><br/>
+									</t>
+								</td>
+							</tr>
+						</t>
+					</table>					
+				</div>
+			</div>
+		</t>
+	</template>
+</odoo>

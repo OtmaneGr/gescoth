@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="module_category_gescoth" model="ir.module.category">
+		<field name="name">Gestion d'école</field>
+		<field name="description">Catégorie pour Gescoth</field>
+		<field name="sequence">200</field>
+	</record>
+	<record id="group_gescoth_eleve" model="res.groups">
+		<field name="name">Elève</field>
+		<field name="category_id" ref="module_category_gescoth"/>
+	</record>
+	<record id="group_gescoth_prof" model="res.groups">
+		<field name="name">Professeur</field>
+		<field name="category_id" ref="module_category_gescoth"/>
+		<field name="implied_ids" eval="[(4, ref('group_gescoth_eleve'))]"/>
+	</record>
+	<record id="group_gescoth_admin" model="res.groups">
+		<field name="name">Administration</field>
+		<field name="category_id" ref="module_category_gescoth"/>
+		<field name="implied_ids" eval="[(4, ref('group_gescoth_prof'))]"/>
+	</record>
+</odoo>

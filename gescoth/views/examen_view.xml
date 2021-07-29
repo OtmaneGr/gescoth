@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="gescoth_coeficient_menu_action" model="ir.actions.act_window">
+			<field name="name">Coeficient</field>
+			<field name="res_model">gescoth.coeficient</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première coeficient
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_coeficient_tree_view" model="ir.ui.view">
+			<field name="name">Note Tree</field>
+			<field name="model">gescoth.coeficient</field>
+			<field name="arch" type="xml">
+				<tree string="Coeficient" editable="top">
+					<field name="matiere"/>
+					<field name="est_facultative"/>
+					<field name="coef"/>
+					<field name="professeur_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_note_menu_action" model="ir.actions.act_window">
+			<field name="name">Notes</field>
+			<field name="res_model">gescoth.note</field>
+			<field name="view_mode">tree,form,graph,pivot</field>
+			<field name="context">{"search_default_annee_scolaire":1}</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Pas de note à saisir
+					<p>Il est conseiller d'utiliser l'assistant pour générer les notes à saisir !</p>
+				</p>
+			</field>
+		</record>
+		<record id="gescoth_note_tree_view" model="ir.ui.view">
+			<field name="name">Note Tree</field>
+			<field name="model">gescoth.note</field>
+			<field name="arch" type="xml">
+				<tree string="Note" editable="top">
+					<field name="eleve_id" readonly="1"/>
+					<field name="classe_id" readonly="1"/>
+					<field name="coeficient_id" readonly="1"/>
+					<field name="annee_scolaire" readonly="1"/>
+					<field name="saison" readonly="1"/>
+					<field name="note_compo"/>
+					<field name="moy_classe"/>
+					<field name="moyenne" readonly="0"/>
+					<field name="appreciation" readonly="1"/>
+					<field name="rang" readonly="1"/>
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="serial_search_view" model="ir.ui.view">
+		   <field name="name">Note Search View</field>
+		   <field name="model">gescoth.note</field>
+		   <field name="arch" type="xml">
+		       <search string="Rechercher les notes">
+		           <field name="coeficient_id"/>
+		           <!-- <field name="annee_scolaire"/> -->
+		           <field name="saison"/>
+		           <field name="classe_id"/>
+		           <field name="eleve_id"/>
+		           <filter string="Semetre 1" name="s1" domain="[('saison','=','s1')]"/>
+		           <filter string="Semetre 2" name="s2" domain="[('saison','=','s2')]"/> 
+		           <filter string="Semetre 3" name="s3" domain="[('saison','=','s3')]"/> 
+		           <group expand="1" string="Group By">
+		               <filter string="Saison" name="saison" context="{'group_by':'saison'}"/>
+		               <filter string="Elève" name="eleve_id" context="{'group_by':'eleve_id'}"/>
+		               <filter string="Classe" name="classe_id" context="{'group_by':'classe_id'}"/>
+		               <filter string="Matière" name="coeficient_id" context="{'group_by':'coeficient_id'}"/>
+		               <!-- <filter string="Année scolaire" name="annee_scolaire" context="{'group_by':'annee_scolaire'}"/> -->
+		           </group>
+		       </search>
+		   </field>
+		</record>
+
+		<record id="gescoth_note_pivot_view" model="ir.ui.view">
+			<field name="name">Note Pivot</field>
+			<field name="model">gescoth.note</field>
+			<field name="arch" type="xml">
+				<pivot string="Note">
+					<field name="eleve_id" type="row"/>
+					<field name="annee_scolaire" type="col"/>
+					<field name="saison" type="col"/>
+					<field name="coeficient_id" type="col"/>
+					<field name="note_compo" type="measure"/>
+					<field name="moy_classe" type="measure"/>
+					<field name="moyenne" type="measure"/>
+				</pivot>
+			</field>
+		</record>
+
+
+		<record id="gescoth_note_graph_view" model="ir.ui.view">
+			<field name="name">Note graph</field>
+			<field name="model">gescoth.note</field>
+			<field name="arch" type="xml">
+				<graph string="Conduite">
+					<field name="eleve_id"/>
+					<field name="annee_scolaire"/>
+					<field name="note_compo" type="measure"/>
+					<field name="moy_classe" type="measure"/>
+					<field name="moyenne" type="measure"/>
+				</graph>
+			</field>
+		</record>
+
+
+		<record id="gescoth_appreciation_menu_action" model="ir.actions.act_window">
+			<field name="name">Appréciation</field>
+			<field name="res_model">gescoth.appreciation</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première appréciation
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_decision_menu_action" model="ir.actions.act_window">
+			<field name="name">Décision</field>
+			<field name="res_model">gescoth.decision</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première decision
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_appreciation_tree_view" model="ir.ui.view">
+			<field name="name">Appréciation Tree</field>
+			<field name="model">gescoth.appreciation</field>
+			<field name="arch" type="xml">
+				<tree string="Appréciation" editable="top">
+					<field name="name"/>
+					<field name="inf"/>
+					<field name="sup"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_decicion_tree_view" model="ir.ui.view">
+			<field name="name">Décision Tree</field>
+			<field name="model">gescoth.decision</field>
+			<field name="arch" type="xml">
+				<tree string="Décision" editable="top">
+					<field name="name"/>
+					<field name="inf"/>
+					<field name="sup"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="coef_form_view">
+	        <field name="name">Coeficient</field>
+	        <field name="model">gescoth.coeficient</field>
+	        <field name="arch" type="xml">
+	            <form string="Classe"> 
+	            	<sheet>
+	            		<group>
+	            			<field name="name"/>
+							<field name="matiere"/>
+							<field name="coef" min="0" max="20"/>
+							<field name="est_facultative"/>
+							<field name="professeur_id"/>
+		            	</group>
+	            	</sheet>
+	            </form>
+	        </field>
+	    </record>
+
+		<record id="gescoth_resultat_examen_menu_action" model="ir.actions.act_window">
+			<field name="name">Resultat d'examen</field>
+			<field name="res_model">gescoth.examen.resultat</field>
+			<field name="view_mode">graph,tree,form,pivot</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Pas d'informaton à afficher
+				</p>
+			</field>
+		</record>
+
+		 <record id="gescoth_resultat_examen_tree_view" model="ir.ui.view">
+			<field name="name">Resutalt tree</field>
+			<field name="model">gescoth.examen.resultat</field>
+			<field name="arch" type="xml">
+				<tree string="Resutalt d'examen">
+					<field name="eleve_id"/>
+					<field name="classe_id"/>
+					<field name="saison"/>
+					<field name="annee_scolaire"/>
+					<field name="moyenne"/>
+					<field name="rang"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="resultat_search_view" model="ir.ui.view">
+		   <field name="name">Resultat Search View</field>
+		   <field name="model">gescoth.examen.resultat</field>
+		   <field name="arch" type="xml">
+		       <search string="Rechercher les notes">
+		           <field name="eleve_id"/>
+		           <field name="classe_id"/>
+		           <field name="saison"/>
+		           <filter string="Semetre 1" name="s1" domain="[('saison','=','s1')]"/>
+		           <filter string="Semetre 2" name="s2" domain="[('saison','=','s2')]"/> 
+		           <filter string="Semetre 3" name="s3" domain="[('saison','=','s3')]"/> 
+		           <group expand="1" string="Group By">
+		               <filter string="Saison" name="saison" context="{'group_by':'saison'}"/>
+		               <filter string="Elève" name="eleve_id" context="{'group_by':'eleve_id'}"/>
+		               <filter string="Classe" name="classe_id" context="{'group_by':'classe_id'}"/>
+		               <filter string="Année scolaire" name="annee_scolaire" context="{'group_by':'annee_scolaire'}"/>
+		           </group>
+		       </search>
+		   </field>
+		</record>
+
+		<record id="gescoth_resultat_pivot_view" model="ir.ui.view">
+			<field name="name">Resultat Pivot</field>
+			<field name="model">gescoth.examen.resultat</field>
+			<field name="arch" type="xml">
+				<pivot string="Note">
+					<field name="eleve_id" type="row"/>
+					<field name="annee_scolaire" type="col"/>
+					<field name="classe_id" type="col"/>
+					<field name="saison" type="col"/>
+					<field name="moyenne" type="measure"/>
+				</pivot>
+			</field>
+		</record>
+
+
+		<record id="gescoth_resultat_graph_view" model="ir.ui.view">
+			<field name="name">Resultat graph</field>
+			<field name="model">gescoth.examen.resultat</field>
+			<field name="arch" type="xml">
+				<graph string="Conduite">
+					<field name="eleve_id"/>
+					<field name="annee_scolaire"/>
+					<field name="moyenne" type="measure"/>
+				</graph>
+			</field>
+		</record>
+
+
+		<record id="gescoth_program_examen_menu_action" model="ir.actions.act_window">
+			<field name="name">Programme d'examen</field>
+			<field name="res_model">gescoth.examen.program</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier programme d'examen
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_program_examen_tree_view" model="ir.ui.view">
+			<field name="name">Programme Tree</field>
+			<field name="model">gescoth.examen.program</field>
+			<field name="arch" type="xml">
+				<tree string="Programme d'examen">
+					<field name="name"/>
+					<field name="date_debut"/>
+					<field name="date_fin"/>
+					<field name="annee_scolaire"/>
+					<field name="organisateur"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="gescoth_program_examen_form_view">
+	        <field name="name">Programme</field>
+	        <field name="model">gescoth.examen.program</field>
+	        <field name="arch" type="xml">
+	            <form string="Classe"> 
+	            	<sheet>
+	            		<group>
+	            			<group>
+		            			<field name="name"/>
+								<field name="date_debut"/>
+								<field name="date_fin"/>
+			            	</group>
+			            	<group>
+			            		<field name="annee_scolaire"/>
+								<field name="organisateur"/>
+			            	</group>
+		            	</group>
+		            	<notebook>
+			                <page string="Programme">
+								<field name="line_ids"/>
+			                </page>
+	                	</notebook>
+	            	</sheet>
+	            </form>
+	        </field>
+	    </record>
+	    <record id="gescoth_program_examen_line_menu_action" model="ir.actions.act_window">
+			<field name="name">Programme d'examen</field>
+			<field name="res_model">gescoth.program.line</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Pas de donnée à afficher
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_program_examen_line_tree_view" model="ir.ui.view">
+			<field name="name">Programme Tree</field>
+			<field name="model">gescoth.program.line</field>
+			<field name="arch" type="xml">
+				<tree string="Programme examen">
+					<field name="date_examen"/>
+					<field name="heure_debut" widget="float_time"/>
+					<field name="heure_fin" widget="float_time"/>
+					<field name="professeur_id"/>
+					<field name="classe_id"/>
+					<field name="matiere_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="gescoth_program_examen_line_form_view">
+	        <field name="name">Programme form</field>
+	        <field name="model">gescoth.program.line</field>
+	        <field name="arch" type="xml">
+	            <form string="Programme examen"> 
+	            	<sheet>
+	            		<group>
+	            			<group>
+		            			<field name="date_examen"/>
+								<field name="heure_debut" widget="float_time"/>
+								<field name="heure_fin" widget="float_time"/>
+			            	</group>
+			            	<group>
+								<field name="professeur_id"/>
+								<field name="classe_id"/>
+								<field name="matiere_id"/>
+			            	</group>
+		            	</group>
+	            	</sheet>
+	            </form>
+	        </field>
+	    </record>
+
+		<menuitem 
+			id="gescoth_examen_menu" 
+			parent="gescoth_menu" 
+			name="Examen"
+			/>
+		<menuitem 
+			id="gescoth_exament_coeficient_menu" 
+			parent="menu_gescoth_configuration" 
+			name="Coeficient"
+			groups="base.group_no_one"
+			action="gescoth_coeficient_menu_action"
+			/>
+		<menuitem 
+			id="gescoth_note_coeficient_menu" 
+			parent="gescoth_examen_menu" 
+			name="Saisie de notes"
+			sequence="20"
+			action="gescoth_note_menu_action"
+			/>
+		<menuitem 
+			id="gescoth_appreciation_menu" 
+			parent="gescoth.menu_gescoth_configuration"
+			sequence="20"
+			name="Appréciation"
+			action="gescoth_appreciation_menu_action"
+			/>
+		<menuitem 
+			id="gescoth_decision_menu" 
+			parent="gescoth.menu_gescoth_configuration" 
+			name="Décision"
+			sequence="25"
+			action="gescoth_decision_menu_action"
+			/>
+
+		<menuitem 
+			id="gescoth_bulletin_menu" 
+			parent="gescoth_examen_menu" 
+			name="Bulletins"
+			sequence="100"
+			/>
+
+		<menuitem 
+			id="gescoth_bulletin_semestre_menu" 
+			parent="gescoth_bulletin_menu" 
+			name="Bulletins par semestre"
+
+			/>
+		<menuitem 
+			id="gescoth_bulletin_trimestre_menu" 
+			parent="gescoth_bulletin_menu" 
+			name="Bulletins par trimestre"
+
+			/>
+		<menuitem 
+			id="gescoth_resultat_exament_menu" 
+			parent="gescoth_examen_menu" 
+			name="Analyse des resultats d'examen"
+			sequence="110"
+			action="gescoth_resultat_examen_menu_action"
+			/>
+
+		<menuitem 
+			id="gescoth_program_exament_menu" 
+			parent="gescoth_examen_menu" 
+			name="Programme d'examen"
+			sequence="1"
+			action="gescoth_program_examen_menu_action"
+			/>
+	</data>
+</odoo>

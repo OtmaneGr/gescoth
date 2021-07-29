@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="fiche_note_form_view">
+		<field name="name">Fiche de notes</field>
+		<field name="model">gescoth.note.eleve</field>
+		<field name="arch" type="xml">
+			<form string="Fiche de note">
+				<group>
+					<group>
+						<field name ="classe_id"/>
+						<field name="prof_id"/>
+					</group>
+					<group>
+						<field name ="matiere_id"/>
+					</group>
+				</group>
+				<footer>
+					<button name="imprimer_fiche_note" type="object" icon="fa-print" string="Imprimer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="fiche_note_menu_action" model="ir.actions.act_window">
+		<field name="name">Fiche de notes</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescoth.note.eleve</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="fiche_note_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="impression_fiche_note_menu" 
+		parent="gescoth_examen_menu" 
+		name="Fiche de note"
+		action="fiche_note_menu_action"
+		/>
+	</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="gescoth_attribution_classe_form_view">
+		<field name="name">Réatribution des classes</field>
+		<field name="model">gescoth.attriubtion.classe</field>
+		<field name="arch" type="xml">
+			<form string="Réatribution des classe">
+				<group>
+					<group>
+						<field name ="classe_id"/>
+					</group>
+					<field name="eleve_ids"/>
+				</group>
+				<footer>
+					<button name="change_classe" type="object" string="Valider" icon="fa-print" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="reatribution_de_classe_des_eleves" model="ir.actions.act_window">
+		<field name="name">Réatribution des classes</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescoth.attriubtion.classe</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="gescoth_attribution_classe_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="reatribution_de_classe_des_eleves_menu" 
+		parent="gescoth_eleve_inscription_menu" 
+		name="Réatribution des classes"
+		action="reatribution_de_classe_des_eleves"
+	/>
+</odoo>

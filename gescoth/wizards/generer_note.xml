@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="generer_note_form_view">
+		<field name="name">Générer les note note à saisir</field>
+		<field name="model">gescot.generer.note</field>
+		<field name="arch" type="xml">
+			<form string="Générer des notes">
+				<group>
+					<group>
+						<field name ="classe_id"/>
+						<field name ="annee_scolaire"/>
+					</group>
+					<group>
+						<field name ="saison"/>
+					</group>
+				</group>
+				<footer>
+					<button name="generer_note_a_saisir" type="object" icon="fa-print" string="Générer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="genere_note_a_saisir" model="ir.actions.act_window">
+		<field name="name">Générer les note note à saisir</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescot.generer.note</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="generer_note_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="generer_note_scolaire_menu" 
+		parent="gescoth_examen_menu" 
+		name="Générer les notes"
+		sequence="10"
+		action="genere_note_a_saisir"
+	/>
+</odoo>

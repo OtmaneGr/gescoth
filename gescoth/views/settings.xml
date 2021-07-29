@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+		<record id="res_config_settings_view_form" model="ir.ui.view">
+			<field name="name">res.config.settings.view.form.inherit</field>
+			<field name="model">res.config.settings</field>
+			<field name="priority" eval="10"/>
+			<field name="inherit_id" ref="base.res_config_settings_view_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//div[hasclass('settings')]" position="inside">
+					<div class="app_settings_block" data-string="Gescoth" string="Gescoth" data-key="gescoth">
+						<h3>Gestion d'école secondaire</h3>
+						<div class="row mt16 o_settings_container">
+							<div class="o_settings_left_pane">
+								<label for="chef_etablissement" string="Chef de l'établissement"/><br/>
+								<field name="chef_etablissement"/>
+							</div>
+						</div>
+						<div class="row mt16 o_settings_container">
+							<div class="o_settings_left_pane">
+								<label for="annee_scolaire_id" string="Année scolaire"/><br/>
+								<field name="annee_scolaire_id"/>
+							</div>
+						</div>
+						<div class="row mt16 o_settings_container">
+							<div class="o_settings_left_pane">
+								<label for="ville" string="Fait à"/><br/>
+								<field name="ville"/>
+							</div>
+						</div>
+						<div class="row mt16 o_settings_container">
+							<div class="o_settings_left_pane">
+								<label for="entete" string="Entete de page"/><br/>
+								<field name="entete" width="300" widget="image" class="oe_avatar oe_right"/>
+							</div>
+						</div>
+						<div class="row mt16 o_settings_container col-md-6">
+							<div class="o_settings_left_pane">
+								<label for="image_cache" string="Cachet" /><br />
+								<field name="image_cache" width="200" height="200" widget="image" class="oe_avatar oe_right" />
+							</div>
+						</div>
+						<div class="row mt16 o_settings_container col-md-6">
+							<div class="o_settings_left_pane">
+								<label for="image_signature" string="Signature" /><br />
+								<field name="image_signature" width="200" height="200" widget="image" class="oe_avatar oe_right" />
+							</div>
+						</div>
+					</div>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="gescoth_config_settings_action" model="ir.actions.act_window">
+			<field name="name">Configurations</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.config.settings</field>
+			<field name="view_id" ref="res_config_settings_view_form"/>
+			<field name="view_mode">form</field>
+			<field name="target">inline</field>
+			<field name="context">{'module':'gescoth'}</field>
+		</record>
+
+		<record id="gescoth_anneescolaire_menu_action" model="ir.actions.act_window">
+			<field name="name">Année scolaire</field>
+			<field name="res_model">gescoth.anneescolaire</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première année scolaire
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_mail_config_menu_action" model="ir.actions.act_window">
+			<field name="name">Mail server</field>
+			<field name="res_model">ir.mail_server</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier serveur
+				</p>
+			</field>
+		</record>
+
+		<menuitem 
+			id="menu_gescoth_configuration" 
+			parent="gescoth_menu" 
+			name="Configurations"
+			sequence="100"
+			groups="base.group_system"
+		/>
+		<menuitem 
+			id="menu_gescoth_settings" 
+			parent="menu_gescoth_configuration" 
+			name="Configurations"
+			sequence="10"
+			action="gescoth_config_settings_action"
+		/>
+		<menuitem 
+			id="gescoth_anneescolaire_menu" 
+			parent="menu_gescoth_configuration" 
+			name="Année scolaire"
+			sequence="190"
+			action="gescoth_anneescolaire_menu_action"
+			groups="base.group_no_one"
+		/>
+		<menuitem 
+			id="gescoth_mail_server_config_menu" 
+			parent="menu_gescoth_configuration" 
+			name="Configuration de couriel sortant"
+			sequence="195"
+			action="gescoth_mail_config_menu_action"
+		/>
+	</data>
+</odoo>

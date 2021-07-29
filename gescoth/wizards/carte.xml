@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="carte_form_view">
+		<field name="name">impression carte scolaire</field>
+		<field name="model">gescoth.carte</field>
+		<field name="arch" type="xml">
+			<form string="Impression des cartes scolaire">
+				<group>
+					<group>
+						<field name ="classe_id"/>
+					</group>
+					<group>
+						<field name ="annee_scolaire_id"/>
+					</group>
+				</group>
+				<group>
+					<group>
+						<field name ="imprimer_le_cachet"/>
+					</group>
+					<group>
+						<field name ="imprimer_la_signature"/>
+					</group>
+				</group>
+				<footer>
+					<button name="imprimer_cate_scolaire" type="object" icon="fa-print" string="Imprimer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="impression_carte_sclaire" model="ir.actions.act_window">
+		<field name="name">Impression des cartes scolaires</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescoth.carte</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="carte_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="impression_carte_scolaire_menu" 
+		parent="gescoth_eleve_menu" 
+		name="Imprimer les carte scolaires"
+		action="impression_carte_sclaire"
+	/>
+</odoo>

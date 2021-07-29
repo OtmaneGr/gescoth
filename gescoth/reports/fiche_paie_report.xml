@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<report
+		id = "fiche_paie_report_view"
+		model = "gescoth.prof.paiement"
+		string = "Bulletin de paie"
+		report_type = "qweb-pdf"
+		name = "gescoth.gescoth_fiche_paie_report_view"
+		file = "gescoth.gescoth_fiche_paie_report_view"
+
+	/>
+		<template id="gescoth_fiche_paie_report_view">
+			<t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <style>
+                            .table{
+                                border-collapse:collapse;
+                                border:1px solid black;
+                            }
+                            .text-center{
+                                text-align:center;
+                            }
+                        </style>
+                        <div class="page">
+                            <h3 class="text-center">FICHE DE PAIE</h3>
+                            <p>Nom et prénom(s) : <t t-esc="o.professeur_id.name" /></p>
+                            <table class="table table-sm">
+                                <tr>
+                                    <th>Libellé</th><th>Montant</th>
+                                </tr>
+                                <tr>
+                                    <td>Salaire de base</td><td><t t-esc="'{:,}'.format(o.salaire_base).replace(',',' ')" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Heure suplémentaire</td><td><t t-esc="'{:,}'.format(o.montant_heure_suplementaire).replace(',',' ')" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Montant Net</td><td><t t-esc="'{:,}'.format(o.montant_total).replace(',',' ')" /></td>
+                                </tr>
+                            </table>
+                            <p>Montant net à payer : <t t-esc="'{:,}'.format(o.montant_total).replace(',',' ')" /></p>
+                            <p>Signature</p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+		</template>
+	</odoo>

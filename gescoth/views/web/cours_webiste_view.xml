@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="menu_cours_form" model="website.menu">
+		<field name="name">Cours</field>
+		<field name="url">/cours</field>
+		<field name="parent_id" ref="website.main_menu"/>
+		<field name="sequence">57</field>
+	</record>
+
+	<template id="page_cours" name="Cours">
+		<t t-call="website.layout">
+			<style>
+			.cours{
+				width: 200px;
+				margin:5px;
+				float: left;
+				box-shadow: 0px 1px 5px 2px;
+				text-align: center;
+				border-radius: 10px;
+				padding:50px 0 50px 0;
+			}
+			</style>
+			<div class="container">
+				<t t-if="len(cours) > 0">
+					<h1>Liste des cours</h1>
+					<t t-foreach="cours" t-as="cour">
+						<a t-att-href="cour.id">
+						<div class="cours">
+								<t t-esc="cour.titre"/>
+							</div>
+						</a>
+					</t>
+				</t>
+				<t t-if="0>=len(cours)">
+					<h3>Pas encore de cours disponibles</h3>
+				</t>
+			</div>
+		</t>
+	</template>
+
+	<template id="page_chapitres" name="Chapitres">
+		<t t-call="website.layout">
+			<div class="container">
+				<t t-if="len(chapitres) > 0">
+					<h1>Les chapitres</h1>
+					<ol>	
+						<t t-foreach="chapitres" t-as="chapitre">
+							<li><a t-att-href="str(chapitre.cours_id.id)+'/chapitres/' + str(chapitre.id)"><t t-esc="chapitre.name"/></a></li>				
+						</t>
+					</ol>
+				</t>
+				<t t-if="0>=len(chapitres)">
+					<h3>Pas encore de chapitre disponibles</h3>
+				</t>
+			</div>
+		</t>
+	</template>
+
+	<template id="page_chapitres_dev" name="developpement">
+		<t t-call="website.layout">
+			<div class="container">
+				<a t-att-href="'/cours/'+str(chapitre.cours_id.id)">Retour</a><h1><t t-esc="chapitre.name"/></h1>
+				<t t-raw="chapitre.contenu"/>
+				<div class="embed-responsive embed-responsive-16by9">
+					<t t-esc="chapitre.embed_code"/>				
+				</div>
+			</div>
+		</t>
+	</template>
+</odoo>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="gescoth_cours_menu_action" model="ir.actions.act_window">
+			<field name="name">Cours</field>
+			<field name="res_model">gescoth.cours</field>
+			<field name="view_mode">tree,form,kanban</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre primier cours
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_cours_chapitre_menu_action" model="ir.actions.act_window">
+			<field name="name">Chapitre</field>
+			<field name="res_model">gescoth.cours.chapitre</field>
+			<field name="view_mode">tree,form,kanban</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre primier chapitre
+				</p>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="gescoth_cours_form_view">
+	        <field name="name">Cours</field>
+	        <field name="model">gescoth.cours</field>
+	        <field name="arch" type="xml">
+	            <form string="Cours">	    	
+	                <sheet>	                	
+		                <h2><field name="titre" placeholder="Ex: La premère guerre mondiale"/></h2>
+		                <group>
+		                	<field name="niveau_ids" widget="many2many_tags"/>
+		                	<field name="professeur_id"/>
+		                </group>
+						<field name="chapitre_ids"/>
+	                </sheet>
+	            </form>
+	        </field>
+	    </record>
+	    <record model="ir.ui.view" id="gescoth_cours_chapitre_form_view">
+	        <field name="name">Chapitre de cours</field>
+	        <field name="model">gescoth.cours.chapitre</field>
+	        <field name="arch" type="xml">
+	            <form string="Cours">	    	
+	                <sheet>
+	                	<group>	            
+		                	<group>
+								<field name="name"/>
+								<field name="chapitre_id"/>
+								<field name="cours_id"/>
+								<field name="binary_file" widget="image"/>		
+		                	</group>
+		                </group>
+						<field name="contenu"/>
+						<notebook>
+							<page name="video" string="Video">
+								<field name="video_url" />
+								<field name="embed_code" class="mt-2" widegt="video_preview"/>
+							</page>
+						</notebook>
+	                </sheet>
+	            </form>
+	        </field>
+	    </record>
+
+		<menuitem
+			id="gescoth_cours_menu" 
+			parent="gescoth_menu" 
+			sequence="20"
+			name="Cours"/>
+
+		<menuitem
+			id="gescoth_cours_cour_menu" 
+			parent="gescoth_cours_menu" 
+			name="Cours"
+			sequence="10"
+			action="gescoth_cours_menu_action"/>
+		<menuitem 
+			id="gescoth_cours_champitre_menu" 
+			parent="gescoth_cours_menu" 
+			name="Chapitre"
+			sequence="15"
+			action="gescoth_cours_chapitre_menu_action"/>
+	</data>
+</odoo>

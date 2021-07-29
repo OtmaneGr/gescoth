@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<report 
+		id = "fiche_tranches_report_view" 
+		model = "gescoth.tranche" 
+		string = "Fiche de paiement" 
+		report_type = "qweb-pdf" 
+		name = "gescoth.gescoth_tranche_paiement_report_view" 
+		file = "gescoth.gescoth_tranche_paiement_report_view"
+	/>
+	<template id="gescoth_tranche_paiement_report_view">
+		<t t-call="web.html_container">
+			<t t-call="web.external_layout">
+				<h3 class="text-center">Fiche d'engagement de paiement</h3>
+				Année scolaire : <t t-esc="docs.annee_scolaire_id.name"/><br/>
+				Classe : <t t-esc="docs.eleve_id.classe.name"/><br/>
+				N° Matricule : <t t-esc="docs.eleve_id.name"/><br/>
+				<p>
+					En signant ce document, je m'engage à payer les frais de scolarité selon les échéances ci-dessous
+				</p>
+				<table border="1" width="100%">
+					<tr>
+						<th>Date</th><th>Montant à payer</th><th>Montant payé</th><th>Observation</th>
+					</tr>
+					<t t-foreach='docs.line_ids' t-as="line">
+						<tr>
+							<td><t t-esc="line.date_echeanche" /></td>
+							<td><t t-esc="line.montant" /></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</t>
+				</table>
+				
+			</t>
+		</t>
+	</template>
+</odoo>

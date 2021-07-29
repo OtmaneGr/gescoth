@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="bulletin_troisieme_trimestre_form_view">
+		<field name="name">Impression bulletins troisieme trimestre</field>
+		<field name="model">gescoth.bulletin.troisieme.trimestre</field>
+		<field name="arch" type="xml">
+			<form string="Impression bulletin troisieme trimestre">
+				<group>
+					<group>
+						<field name ="classe_id"/>
+						<field name ="eleve_id"/>
+					</group>
+					<group>
+						<field name ="annee_scolaire_id"/>
+						<field name="date_signature"/>
+					</group>
+				</group>
+				<footer>
+					<button name="imprimer_bulletin_troisieme_trimestre" icon="fa-print" type="object" string="Imprimer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="impresstion_bulltin_troisieme_trimestre" model="ir.actions.act_window">
+		<field name="name">Impression des bulletins du troisieme trimestre</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescoth.bulletin.troisieme.trimestre</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="bulletin_troisieme_trimestre_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="impression_bulletin_troisieme_trimestre_menu" 
+		parent="gescoth_bulletin_trimestre_menu" 
+		name="Bulletin trimestre 3"
+		action="impresstion_bulltin_troisieme_trimestre"
+	/>
+</odoo>

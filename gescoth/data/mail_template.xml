@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="eleve_email_template" model="mail.template">
+            <field name="name">Elève: Envoi de mail</field>
+            <field name="model_id" ref="gescoth.model_gescoth_eleve"/>
+            <field name="email_from">${(user.email and '%s %s' % (user.name, user.email) or '')|safe}</field>
+            <field name="email_to">${object.email}</field>
+            <field name="subject">Confirmation d'inscription (Ref ${object.name})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Bonjour ${object.nom_eleve} <br/>
+                        Ci-joint votre carte de confirmation d'inscription<br/>
+                        Votre numéro d'inscription ${object.name}<br/>
+                        N'hesitez pas à nous contactez pour une quelconque inquietude !<br/>
+                    </p>
+                </div>
+            </field>
+            <field name="report_template" ref="eleve_view_report"/>
+            <field name="report_name">Inscription_${(object.name)}</field>
+        </record>
+
+        <record id="eleve_paiement_template" model="mail.template">
+            <field name="name">Paiement: Envoi de mail</field>
+            <field name="model_id" ref="gescoth.model_gescoth_paiement_eleve"/>
+            <field name="email_from">${(user.email and '%s %s' % (user.name, user.email) or '')|safe}</field>
+            <field name="email_to">${object.eleve_id.email}</field>
+            <field name="subject">Confirmation d'inscription (Ref ${object.numer_recu})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Bonjour ${object.eleve_id.nom_eleve}<br/>
+                        Ci-joint votre reçu de paiment des frais de scolairité<br/>
+                        Numérode de reçu <b> ${object.numer_recu}</b><br/>
+                        Montant : <b>${object.montant}</b><br/>
+                        N'hesitez pas à nous contactez pour une quelconque inquietude !
+                    </p>
+                </div>
+            </field>
+            <field name="report_template" ref="eleve_recu_paiement_view_report"/>
+            <field name="report_name">Inscription_${(object.name)}</field>
+        </record>
+    </data>
+</odoo>

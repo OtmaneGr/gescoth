@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="gescoth_paiement_eleve_menu_action" model="ir.actions.act_window">
+			<field name="name">Paiement</field>
+			<field name="res_model">gescoth.paiement.eleve</field>
+			<field name="view_mode">tree,graph,form,pivot</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Enregistrer les paiements de élèves ici
+				</p>
+				<i>
+					Cliquez sur le bonton créer pour enregistrer paiement
+				</i>
+			</field>
+		</record>
+		<record id="gescoth_eleve_payement_tree_view" model="ir.ui.view">
+			<field name="name">Paiement Tree</field>
+			<field name="model">gescoth.paiement.eleve</field>
+			<field name="arch" type="xml">
+				<tree 
+				decoration-info="state=='accounted'" 
+				decoration-muted="state=='cancel'"
+				decoration-success="state=='confirmed'"
+				default_order="id desc"
+				string="Paiement des élèves">
+					<field name="numer_recu"/>
+					<field name="eleve_id"/>
+					<field name="date_paiement"/>
+					<field name="montant"/>
+					<field name="recu_manuel"/>
+					<field name="annee_scolaire_id"/>
+					<field name="responsable_id"/>
+					<field name="reste" />
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="payement_form_view">
+	        <field name="name">Paiement</field>
+	        <field name="model">gescoth.paiement.eleve</field>
+	        <field name="arch" type="xml">
+	            <form string="Paiement de élèves">
+	            	<header>
+	            		<button name="confirmer_paiement" states="draft" string="Confirmer"  type="object" class="btn btn-primary" />
+	            		<button name="envoyer_carte_eleve" string="Envoyer par mail" icon="fa-envelope-o" type="object" class="btn btn-primary" />		
+						<button name="comptabiliser_paiement" string="Comptabiliser" type="object" states="confirmed" class="btn btn-primary" />
+						<button name="annuler_payement" string="Annuler" type="object" states="confirmed"  />
+	            		<button name="mettre_en_brouillon" string="Mettre en brouillon" type="object" states="cancel"  />
+	            		<field name="state" widget="statusbar" statusbar_visible="draft,confirmed,counted"/>
+	            	</header>
+	            	<sheet>
+	            		<div>
+	            			<h1><field name="numer_recu"/></h1>
+	            		</div>
+	            		<group>
+	            			<group>
+								<field name="eleve_id"  attrs="{'readonly': [('state', 'in', ['confirmed', 'accounted', 'cancel'])]}"/>
+								<field name="date_paiement" attrs="{'readonly': [('state', 'in', ['confirmed', 'accounted', 'cancel'])]}"/>
+								<field name="annee_scolaire_id" attrs="{'readonly': [('state', 'in', ['confirmed', 'accounted', 'cancel'])]}"/>
+	            				<field name="classe_id" attrs="{'readonly': [('state', 'in', ['confirmed', 'accounted', 'cancel'])]}"/>
+								<field name="responsable_id" attrs="{'readonly': [('state', 'in', ['confirmed', 'accounted', 'cancel'])]}"/>
+							</group>
+	            			<group>
+	            				<!-- <field name="total_a_payer" attrs="{'readonly': [('state', 'in', ['confirmed','accounted', 'cancel'])]}"/> -->
+	            				<field name="montant" attrs="{'readonly': [('state', 'in', ['confirmed','accounted', 'cancel'])]}"/>
+								<field name="recu_manuel" attrs="{'readonly': [('state', 'in', ['confirmed','accounted', 'cancel'])]}"/>
+								<field name="reste"/>
+	            			</group>
+		            	</group>
+	            	</sheet>
+	            	<div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+	            </form>
+	        </field>
+	    </record>
+
+	    <record id="gescoth_paiement_search_view" model="ir.ui.view">
+		   <field name="name">Paiement Search View</field>
+		   <field name="model">gescoth.paiement.eleve</field>
+		   <field name="arch" type="xml">
+		       <search string="Annalyse des paiements">
+		           <field name="numer_recu"/>
+		           <field name="eleve_id"/>
+		           <field name="classe_id"/>
+		           <field name="annee_scolaire_id"/>
+		           <group expand="1" string="Group By">
+		               <filter string="Année scolaire" name="annee_scolaire_id" context="{'group_by':'annee_scolaire_id'}"/>
+		               <filter string="Classe" name="classe_id" context="{'group_by':'classe_id'}"/>
+		           </group>
+		       </search>
+		   </field>
+		</record>
+
+
+		<record id="gescoth_paiement_pivot_view" model="ir.ui.view">
+			<field name="name">Paiement Pivot</field>
+			<field name="model">gescoth.paiement.eleve</field>
+			<field name="arch" type="xml">
+				<pivot string="Note">
+					<field name="eleve_id" type="row"/>
+					<field name="annee_scolaire_id" type="col"/>
+					<field name="classe_id" type="col"/>
+					<field name="montant" type="measure"/>
+				</pivot>
+			</field>
+		</record>
+
+
+		<record id="gescoth_paiement_graph_view" model="ir.ui.view">
+			<field name="name">Paiement graph</field>
+			<field name="model">gescoth.paiement.eleve</field>
+			<field name="arch" type="xml">
+				<graph string="Conduite">
+					<field name="eleve_id"/>
+					<field name="annee_scolaire_id"/>
+					<field name="classe_id"/>
+					<field name="montant" type="measure"/>
+				</graph>
+			</field>
+		</record>
+
+
+
+	    <record id="gescoth_trache_eleve_menu_action" model="ir.actions.act_window">
+			<field name="name">Tranches de paiement</field>
+			<field name="res_model">gescoth.tranche</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Enregistrement les payements par tranche
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_tranche_tree_view" model="ir.ui.view">
+			<field name="name">Tranche Tree</field>
+			<field name="model">gescoth.tranche.line</field>
+			<field name="arch" type="xml">
+				<tree string="Student" editable="top">
+					<field name="date_echeanche"/>
+					<field name="montant"/>
+					<field name="paye"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="tranche_form_view">
+	        <field name="name">Tranches de paiement</field>
+	        <field name="model">gescoth.tranche</field>
+	        <field name="arch" type="xml">
+	            <form string="Tranche">
+	            	<header>
+	            		<button name="calculer_tranche" states="draft" class="oe_highlight" string="Calculer les tranche" type="object"/>
+	            		<button name="confirmer_tranche" states="draft" class="oe_highlight" string="Confirmer" type="object"/>
+	            		<button name="annuler_tranche" states="confirmed" class="oe_highlight" string="Annuler" type="object"/>
+	            		<button name="brouilln_tranche" states="cancel" class="oe_highlight" string="Remetre en brouillon" type="object"/>
+	            		<field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+	            	</header>
+	            	<sheet>
+	                	<group>
+		                	<group>
+								<field name="eleve_id" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancel'])]}"/>
+								<field name="date" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancel'])]}"/>
+								<field name="date_premier_tranche" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancel'])]}"/>
+		                	</group>
+		                	<group>
+								<field name="montant" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancel'])]}"/>
+								<field name="nombre" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancel'])]}"/>
+		                		<field name="montat_deja_paye" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancel'])]}"/>
+		                		<field name="annee_scolaire_id" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancel'])]}"/>
+		                	</group>
+		                </group>
+			            <notebook>
+			                <page string="Tableau de tranche">
+			                	<field name="line_ids" readonly="0" attrs="{'readonly': [('state', 'in', ['confirmed', 'cancel'])]}"/>
+			                </page>
+	                	</notebook>
+	                </sheet>
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+	            </form>
+	        </field>
+	    </record>
+
+		<record id="gescoth_trache_line_menu_action" model="ir.actions.act_window">
+			<field name="name">Ligne de tranche</field>
+			<field name="res_model">gescoth.tranche.line</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Enregistrement les payements par tranche
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_tranche_line_tree_view" model="ir.ui.view">
+			<field name="name">Line Tree</field>
+			<field name="model">gescoth.tranche</field>
+			<field name="arch" type="xml">
+				<tree string="Tranche de payement">
+					<field name="eleve_id"/>
+					<field name="date"/>
+					<field name="date_premier_tranche"/>
+					<field name="montant"/>
+					<field name="nombre"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="tranche_ligne_form_view">
+	        <field name="name">Tranche form</field>
+	        <field name="model">gescoth.tranche.line</field>
+	        <field name="arch" type="xml">
+	            <form string="Linge de tranche">
+	            	<header>
+	            		<button name="Payer_la_trache" class="oe_highlight" string="Payer la tranche" type="object"/>
+	            	</header>
+	            	<sheet>
+	                	<group>
+		                	<group>
+								<field name="date_echeanche"/>
+								<field name="montant"/>
+								<field name="tranche_id"/>
+								<field name="paye"/>
+		                	</group>
+		                </group>
+	                </sheet>
+	            </form>
+	        </field>
+	    </record>
+
+		<!-- depense -->
+	    <record id="gescoth_depense_menu_action" model="ir.actions.act_window">
+			<field name="name">Dépense</field>
+			<field name="res_model">gescoth.depense</field>
+			<field name="view_mode">tree,graph,form,pivot</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Enregistrer votre primière dépense
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_depense_tree" model="ir.ui.view">
+			<field name="name">gescoth_depense.tree</field>
+			<field name="model">gescoth.depense</field>
+			<field name="arch" type="xml">
+				<tree string="Dépenses">
+					<field name="name" />
+					<field name="date_depense" />
+					<field name="montant" />
+					<field name="partenaire_id" />
+					<field name="responsable_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_depense_tree" model="ir.ui.view">
+			<field name="name">gescoth_depense.tree</field>
+			<field name="model">gescoth.depense</field>
+			<field name="arch" type="xml">
+				<tree 
+				decoration-info="state=='accounted'" 
+				decoration-muted="state=='canceled'"
+				decoration-success="state=='confirmed'"
+				default_order="id desc"
+				string="Dépenses">
+					<field name="name" />
+					<field name="date_depense" />
+					<field name="montant" />
+					<field name="partenaire_id" />
+					<field name="responsable_id" />
+					<field name="annee_scolaire_id" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_depense_form" model="ir.ui.view">
+			<field name="name">gescoth.depense.form</field>
+			<field name="model">gescoth.depense</field>
+			<field name="arch" type="xml">
+				<form string="">
+					<header>
+						<button name="confirmer_recette" states="draft" type="object" string="Confirmer" class="btn btn-primary"/>
+						<button name="comptabiliser_recette" states="confrimed" type="object" string="Comptabiliser" class="btn btn-primary"/>
+						<button name="annuler_recette" states="confrimed" type="object" string="Annuler"/>
+						<button name="mettre_brouillon_recette" states="canceled" type="object" string="Mettre en brouillon" class="btn btn-primary"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confrimed,accounted"/>
+					</header>
+					<sheet>
+						<group>
+							<group>
+								<field name="name" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="date_depense" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+							</group>
+							<group>
+								<field name="montant" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="partenaire_id" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="responsable_id" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="annee_scolaire_id" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+							</group>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+				</form>
+			</field>
+		</record>
+
+		<!-- recete -->
+		<record id="gescoth_recette_menu_action" model="ir.actions.act_window">
+			<field name="name">Recette</field>
+			<field name="res_model">gescoth.recette</field>
+			<field name="view_mode">tree,graph,form,pivot</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Enregistrer votre primière recette
+				</p>
+			</field>
+		</record>
+
+		<!-- recette tree view -->
+		<record id="gescoth_recette_tree" model="ir.ui.view">
+			<field name="name">gescoth_recette.tree</field>
+			<field name="model">gescoth.recette</field>
+			<field name="arch" type="xml">
+				<tree 
+				decoration-info="state=='accounted'" 
+				decoration-muted="state=='canceled'"
+				decoration-success="state=='confirmed'"
+				default_order="id desc"
+				string="Recette">
+					<field name="name" />
+					<field name="date_depense" />
+					<field name="montant" />
+					<field name="partenaire_id" />
+					<field name="responsable_id" />
+					<field name="annee_scolaire_id" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+		<!-- recette form -->
+		<record id="gescoth_recette_form" model="ir.ui.view">
+			<field name="name">gescoth.recette.form</field>
+			<field name="model">gescoth.recette</field>
+			<field name="arch" type="xml">
+				<form string="Recette">
+					<header>
+						<button name="confirmer_recette" states="draft" type="object" string="Confirmer" class="btn btn-primary"/>
+						<button name="comptabiliser_recette" states="confrimed" type="object" string="Comptabiliser" class="btn btn-primary"/>
+						<button name="annuler_recette" states="confrimed" type="object" string="Annuler"/>
+						<button name="mettre_brouillon_recette" states="canceled" type="object" string="Mettre en brouillon" class="btn btn-primary"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confrimed,accounted"/>
+					</header>
+					<sheet>
+						<group>
+							<group>
+								<field name="name" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="date_depense" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="montant" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+							</group>
+							<group>
+								<field name="partenaire_id" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="responsable_id" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="annee_scolaire_id" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+							</group>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+				</form>
+			</field>
+		</record>
+
+			<!-- professeur paiement -->
+		<record id="paiement_professeur_menu_action" model="ir.actions.act_window">
+			<field name="name">Paiement des professeurs</field>
+			<field name="res_model">gescoth.prof.paiement</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Pas de données à afficher
+				</p>
+			</field>
+		</record>
+		<!-- professeur payement form view -->
+		<record id="gescoth_professeur_paiement_form" model="ir.ui.view">
+			<field name="name">gescoth.professeur.paiement.form</field>
+			<field name="model">gescoth.prof.paiement</field>
+			<field name="arch" type="xml">
+				<form string="Paiment des professeur">
+					<header>
+						<button name="confirmer_paiement" states="draft" type="object" string="Confirmer" class="btn btn-primary"/>
+						<button name="comptabiliser_paiement" states="confrimed" type="object" string="Comptabiliser" class="btn btn-primary"/>
+						<button name="annuler_paiement" states="confrimed" type="object" string="Annuler"/>
+						<button name="mettre_brouillon_paiement" states="canceled" type="object" string="Mettre en brouillon" class="btn btn-primary"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confrimed,accounted"/>
+					</header>
+					<sheet>
+						<group>
+							<group>
+								<field name="professeur_id"  attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+								<field name="date_paiement"  attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+							</group>
+							<group>
+								<field name="mois" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}" />
+								<field name="annee_scolaire_id" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}" />	
+							</group>
+						</group>
+						<notebook>
+							<page name="salaire" string="Salaire">
+								<group>
+									<group>
+										<field name="salaire_base"  attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+										<field name="montant_par_heure" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}" />
+										<field name="heure_suplementaire" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}" />
+										<field name="retenue_sur_paie" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}" />
+									</group>
+									<group>
+										<field name="montant_heure_suplementaire"  attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}"/>
+										<field name="montant_total" attrs="{'readonly': [('state', 'in', ['confrimed', 'accounted', 'canceled'])]}" />
+									</group>
+								</group>
+							</page>
+							<page name="note" string="Note">
+								<field name="note" />
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+				</form>
+			</field>
+		</record>
+		<!-- professeur tree view -->
+		<record id="gescoth_professeur_payement_tree" model="ir.ui.view">
+		<field name="name">gescoth.professeur.payement.tree</field>
+		<field name="model">gescoth.prof.paiement</field>
+		<field name="arch" type="xml">
+			<tree 
+			decoration-info="state=='accounted'" 
+			decoration-muted="state=='canceled'"
+			decoration-success="state=='confirmed'"
+			default_order="id desc"
+			string="Paiement des professeurs">
+				<field name="date_paiement" />
+					<field name="salaire_base" />
+					<field name="heure_suplementaire" />
+					<field name="montant_par_heure" />
+					<field name="montant_heure_suplementaire" />
+					<field name="montant_total" />
+					<field name="mois" />
+					<field name="annee_scolaire_id" />
+					<field name="state" />
+			</tree>
+		</field>
+		</record>
+
+		<!-- Analise financière -->
+		<record id="gescoth_comptabilite_menu_action" model="ir.actions.act_window">
+			<field name="name">Analyse financière</field>
+			<field name="res_model">gescoth.comptabilite</field>
+			<field name="view_mode">pivot,graph,tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Pas de données à afficher
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_comptabilite_tree" model="ir.ui.view">
+			<field name="name">gescoth_compta.tree</field>
+			<field name="model">gescoth.comptabilite</field>
+			<field name="arch" type="xml">
+				<tree string="">
+					<field name="date_comptable" />
+					<field name="libelle" />
+					<field name="montant_debit" />
+					<field name="montant_credit" />
+					<field name="solde_caisse" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_compptabilite_pivot_view" model="ir.ui.view">
+			<field name="name">Comptabilité Pivot</field>
+			<field name="model">gescoth.comptabilite</field>
+			<field name="arch" type="xml">
+				<pivot string="Comptabilité">
+					<field name="date_comptable" interval="day" type="row"/>
+					<field name="montant_debit" type="measure"/>
+					<field name="montant_credit" type="measure"/>
+					<field name="solde_caisse" type="measure"/>
+				</pivot>
+			</field>
+		</record>
+
+		<menuitem
+			id="gescoth_finance_menu"
+			parent="gescoth_menu"
+			name="Finance"
+			/>
+		<menuitem
+			id="gescoth_recette_menu"
+			parent="gescoth_finance_menu"
+			name="Recettes"
+			/>
+		<menuitem
+			id="gescoth_finance_trancge_eleve_menu"
+			parent="gescoth_finance_menu"
+			name="Paiement par tranche"
+			action="gescoth_trache_eleve_menu_action"
+			/>
+		<menuitem
+			id="gescoth_finance_paiement_eleve_menu"
+			parent="gescoth_recette_menu"
+			name="Paiement des élèves"
+			action="gescoth_paiement_eleve_menu_action"
+			/>
+		<menuitem
+			id="gescoth_enregistrer_recette_menu"
+			parent="gescoth_recette_menu"
+			name="Enregistrer une recette"
+			action="gescoth_recette_menu_action"
+			/>
+		<menuitem
+			id="gescoth_depense_menu"
+			parent="gescoth_finance_menu"
+			name="Dépenses"
+			/>
+		
+		<menuitem
+			id="gescoth_paiement_professeur_menu"
+			parent="gescoth_depense_menu"
+			name="Paiement des professeurs"
+			action="paiement_professeur_menu_action"
+			/>
+
+		<menuitem
+			id="gescoth_enregistrer_depense_menu"
+			parent="gescoth_depense_menu"
+			name="Enregistrer une dépense"
+			action="gescoth_depense_menu_action"
+			/>
+		
+		<menuitem
+			id="gescoth_analyse_comptable_menu"
+			parent="gescoth_finance_menu"
+			name="Analyse financière"
+			sequence="200"
+			action="gescoth_comptabilite_menu_action"
+			/>
+	</data>
+</odoo>

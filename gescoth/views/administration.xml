@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="gescoth_personnel_menu_action" model="ir.actions.act_window">
+			<field name="name">Personnel</field>
+			<field name="res_model">gescoth.personnel</field>
+			<field name="view_mode">tree,form,kanban</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier agent d'administration
+				</p>
+			</field>
+		</record>
+
+		 <record id="gescoth_personnel_tree_view" model="ir.ui.view">
+			<field name="name">Personel Tree</field>
+			<field name="model">gescoth.personnel</field>
+			<field name="arch" type="xml">
+				<tree string="Student">
+					<field name="name"/>
+					<field name="telephone"/>
+					<field name="email"/>
+					<field name="Adresse"/>
+					<field name="post_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="personnel_form_view">
+	        <field name="name">Personnel</field>
+	        <field name="model">gescoth.personnel</field>
+	        <field name="arch" type="xml">
+	            <form string="Personnel">
+	            	<sheet>
+	                	<group>
+		                	<group>
+								<field name="name"/>
+								<field name="telephone"/>
+								<field name="email"/>
+		                	</group>
+		                	<group>
+								<field name="Adresse"/>
+								<field name="post_id"/>
+		                	</group>
+		                </group>
+	                </sheet>
+									<div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+	            </form>
+	        </field>
+	    </record>
+
+		<record id="gescoth_personnel_post_menu_action" model="ir.actions.act_window">
+			<field name="name">Poste occupé</field>
+			<field name="res_model">gescoth.poste</field>
+			<field name="view_mode">tree,form,kanban</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier poste d'administration
+				</p>
+			</field>
+		</record>
+
+
+		<menuitem
+			id="gescoth_admin_menu"
+			parent="gescoth_menu"
+			sequence="25"
+			name="Administration"
+		/>
+		<menuitem
+			id="gescoth_admin_agent_admin_menu"
+			parent="gescoth_admin_menu"
+			name="Agents d'administration"
+			action="gescoth_personnel_menu_action"
+		/>
+		<menuitem
+			id="gescoth_admin_post_admin_menu"
+			parent="gescoth_admin_menu"
+			name="Postes occupés"
+			action="gescoth_personnel_post_menu_action"
+		/>
+	</data>
+
+</odoo>

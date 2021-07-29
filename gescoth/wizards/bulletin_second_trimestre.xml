@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="bulletin_second_trimestre_form_view">
+		<field name="name">Impression bulletins second trimestre</field>
+		<field name="model">gescoth.bulletin.second.trimestre</field>
+		<field name="arch" type="xml">
+			<form string="Impression bulletin second trimestre">
+				<group>
+					<group>
+						<field name ="classe_id"/>
+						<field name ="eleve_id"/>
+					</group>
+					<group>
+						<field name ="annee_scolaire_id"/>
+						<field name="date_signature"/>
+					</group>
+				</group>
+				<footer>
+					<button name="imprimer_bulletin_second_trimestre" icon="fa-print" type="object" string="Imprimer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="impresstion_bulltin_second_trimestre" model="ir.actions.act_window">
+		<field name="name">Impression des bulletins du second trimestre</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescoth.bulletin.second.trimestre</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="bulletin_second_trimestre_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="impression_bulletin_second_trimestre_menu" 
+		parent="gescoth_bulletin_trimestre_menu" 
+		name="Bulletin trimestre 2"
+		action="impresstion_bulltin_second_trimestre"
+	/>
+</odoo>

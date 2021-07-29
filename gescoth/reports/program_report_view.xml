@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<report 
+	    id = "report_program_examen_view_report" 
+	    model = "gescoth.examen.program" 
+	    string = "Programme d'examen" 
+	    report_type = "qweb-pdf" 
+	    name = "gescoth.report_program_examen_view" 
+	    file = "gescoth.report_program_examen_view"
+	/>  
+
+	<template id="report_program_examen_view">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="web.external_layout">
+					<style type="text/css">
+						table{
+						border-radius: 1em;
+						}
+						.MyTable {
+						border-collapse:collapse;
+						border:1px solid black;
+						width: 100%;
+						}
+						thead{
+						border-color: lightgray;
+						background-color:lightgray;
+						}
+						.MyTable td {
+						border:1px solid black;
+						margin-left: 150px;
+						}
+						.MyTable tr{
+						border-bottom : 0px;
+						border-top: 0px;
+						}
+						.MyTable th{
+						border:1px solid black;
+						}
+						.entete {
+						text-align: center;
+						}
+						.img{
+						width: 200px;
+						height: 150px;
+						}
+						.montant{
+						text-align: right;
+						}
+						.company{
+						font-size: 22px;
+						font-weight: bold;
+						}
+						.text-center{
+						text-align: center;
+						}
+						.rubrique{
+						font-size: 20;
+						}
+						.effectif{
+						width: 50%;
+						}
+						.text-center{
+						text-align:center;
+						}
+						.text-right{
+						text-align: right;
+						}
+						.nom_prenom{
+						width: 100%;
+						height: 27px;
+						border: 1px solid black;
+						border-radius: 25px;
+						text-align: center;
+						}
+						.page{
+							font-family: Cormorant Infant;
+						}
+						.text-gras{
+							font-size: 18px;
+							font-weight: bold;
+						}
+					</style>
+	                <div class="page">
+						<h4 style="text-align: center;">Programme d'examen</h4>
+						<p>Examen :<t t-esc="o.name"/> </p>
+						<p>Année scolaire :<t t-esc="o.annee_scolaire.name"/> </p>
+						<p>Date du <t t-esc="o.date_debut"/> au <t t-esc="o.date_fin"/></p>
+	                    <table  class="MyTable">
+							<thead>
+								<tr class="text-center">
+									<th>Date</th><th>Heure de début</th><th>Heure de fin</th><th>Professeur</th><th>Classe</th><th>Matière</th>
+								</tr>
+							</thead>
+							<tbody>
+							<t t-foreach="o.line_ids" t-as="line">
+								<tr class="text-center">
+									<th><t t-esc="line.date_examen"/></th>
+									<th><t t-esc="line.heure_debut"/></th>
+									<th><t t-esc="line.heure_fin"/></th>
+									<th><t t-esc="line.professeur_id.name"/></th>
+									<th><t t-esc="line.classe_id.name"/></th>
+									<th><t t-esc="line.matiere_id.name"/></th>
+								</tr>
+							</t>
+						</tbody>
+						</table>
+	                </div>
+	            </t>
+			</t>
+		</t>
+	</template>
+</odoo>

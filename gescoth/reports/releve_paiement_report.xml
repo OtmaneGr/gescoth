@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<report 
+		id = "releve_paiement_report_view" 
+		model = "gescoth.carte" 
+		string = "Releve de paiement" 
+		report_type = "qweb-pdf" 
+		name = "gescoth.eleve_releve_paiement_report_view" 
+		file = "gescoth.eleve_releve_paiement_report_view"
+		/>
+		<template id="eleve_releve_paiement_report_view">
+			<t t-call="web.html_container">
+				<t t-call="web.external_layout">
+					<div class="page">
+						<h4 class="text-center">RELEVE DE PAIMENTS</h4>
+						Nom : <t t-esc="nom"/><br/>
+						Classe :  <t t-esc="classe"/><br/>
+						<table class="table table-sm">
+							<tr>
+								<th>Date de paiement</th>
+								<th>Numéro de reçu</th>
+								<th>Reçu manuel</th>
+								<th>Montant</th>
+							</tr>						
+							<t t-foreach="paiements" t-as="paiement">
+								<tr>
+									<td><t t-esc="paiement['date_paiement']"/></td>
+									<td><t t-esc="paiement['numer_recu']"/></td>
+									<td><t t-esc="paiement['recu_manuel']"/></td>
+									<td><t t-esc="paiement['montant']"/></td>
+								</tr>
+							</t>
+						</table>
+					</div> 
+				</t>
+			</t>
+		</template>
+	</odoo>

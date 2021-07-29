@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="liste_eleve_form_view">
+		<field name="name">Liste de élèves</field>
+		<field name="model">gescoth.liste.eleve</field>
+		<field name="arch" type="xml">
+			<form string="Ajouter une absence">
+				<group>
+					<field name ="classe_id"/>
+				</group>
+				<footer>
+					<button name="imprimer_liste_eleve" type="object" string="Imprimer" icon="fa-print" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="impression_liste_eleve_action" model="ir.actions.act_window">
+		<field name="name">Impression de la liste de élèves</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescoth.liste.eleve</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="liste_eleve_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="impression_liste_eleve_menu" 
+		parent="gescoth_eleve_menu" 
+		name="Liste des élèves"
+		action="impression_liste_eleve_action"
+	/>
+</odoo>

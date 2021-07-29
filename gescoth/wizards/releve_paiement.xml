@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="releve_paiement_form_view">
+		<field name="name">Releve de paiement</field>
+		<field name="model">gescoth.releve.paiement</field>
+		<field name="arch" type="xml">
+			<form string="Impression du relevé de paiement">
+				<group>
+					<group>
+						<field name ="eleve_id"/>
+						<field name="classe_id"/>
+					</group>
+					<group>
+						<field name ="annee_scolaire_id"/>
+					</group>
+				</group>
+				<footer>
+					<button name="imprimer_releve_paiement" type="object" string="Imprimer" icon="fa-print" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="releve_paiement_menu_action" model="ir.actions.act_window">
+		<field name="name">Releve de paiement</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescoth.releve.paiement</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="releve_paiement_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="impression_releve_de_paiement_menu" 
+		parent="gescoth_finance_menu" 
+		name="Releve de paiement"
+		sequence="100"
+		action="releve_paiement_menu_action"
+		/>
+	</odoo>

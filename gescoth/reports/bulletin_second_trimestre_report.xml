@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<report
+		id = "bulltin_second_trimestre_report_view"
+		model = "gescoth.bulletin.premier.trimestre"
+		string = "Bulletin trimestre 2"
+		report_type = "qweb-pdf"
+		name = "gescoth.eleve_bulletin_second_trimestre_report_view"
+		file = "gescoth.eleve_bulletin_second_trimestre_report_view"
+		paperformat ="paperformat_bulletin"
+		/>
+		<template id="eleve_bulletin_second_trimestre_report_view">
+			<t t-call="web.html_container">
+				<t t-foreach="note_des_eleve" t-as="o">
+					<style type="text/css">
+						table{
+						border-radius: 1em;
+						}
+						.MyTable {
+						border-collapse:collapse;
+						border:1px solid black;
+						width: 100%;
+						}
+						thead{
+						border-color: lightgray
+						}
+						.MyTable td {
+						border:1px solid black;
+						margin-left: 150px;
+						}
+						.MyTable tr{
+						border-bottom : 0px;
+						border-top: 0px;
+						}
+						.MyTable th{
+						border:1px solid black;
+						}
+						.entete {
+						text-align: center;
+						}
+						.img{
+						width: 200px;
+						height: 150px;
+						}
+						.montant{
+						text-align: right;
+						}
+						.company{
+						font-size: 22px;
+						font-weight: bold;
+						}
+						.text-center{
+						text-align: center;
+						}
+						.rubrique{
+						font-size: 20;
+						}
+						.effectif{
+						width: 50%;
+						}
+						.text-center{
+							text-align:center;
+						}
+						.text-right{
+							text-align: right;
+						}
+						.nom_prenom{
+							width: 100%;
+							height: 27px;
+							border: 1px solid black;
+							border-radius: 25px;
+							text-align: center;
+						}
+						.page{
+							font-family: Cormorant Infant;
+						}
+						.text-gras{
+							font-size: 18px;
+							font-weight: bold;
+						}
+					</style>
+					<div class="page">
+						<t t-if="entete">
+							<img t-attf-src="data:image/*;base64,{{entete}}" style="width: 100%; height:200px;"/>
+						</t>
+						<h2 style="text-align:center;">BULLETIN DE NOTES</h2>
+						<P style="text-align:center;">Second trimestre</P>
+
+						<table class="MyTable effectif" style="margin-left: 50%; text-align: center;">
+							<thead>
+								<tr style="background-color:lightgray;">
+									<th>Classe</th><th>Effectif</th><th>Sexe</th><th>Statut</th><th>Ann.scolaire</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><span t-esc="o['classe']"/></td>
+									<td><span t-esc="effectif"/></td>
+									<td><span t-esc="o['sexe']"/></td>
+									<td><span t-esc="o['statut']"/></td>
+									<td><span t-esc="anneescolaire_id"/></td>
+								</tr>
+							</tbody>
+						</table>
+						<h3 class="nom_prenom">Nom et prénom(s) : <span t-esc="o['nom_eleve']"/></h3>
+						<table class="MyTable">
+							<thead>
+								<tr style="background-color:lightgray;">
+									<th>Matière</th><th>Moy Classe</th><th>Note de compo</th><th>Moyenne</th><th>Coef</th>
+									<th>Total</th><th>Rang</th><th>Professeur</th><th>Appréciation</th><th>Signature</th>
+								</tr>
+							</thead>
+							<tbody>
+								<t t-foreach="o['notes']" t-as="note">
+									<t t-if="note['type_matiere'] != 'sport'">
+										<tr>
+											<td width="20%" class="text-gras">
+												<t t-esc="note['matiere']"/>
+											</td>
+											<td class="text-center" width="5%"><span t-esc="round(note['moy_classe'],2)" /></td>
+											<td class="text-center" width="5%"><span t-esc="round(note['note_compo'],2)" /></td>
+											<td class="text-center" width="5%"><span t-esc="round(note['moyenne'],2)" /></td>
+											<td class="text-center"><span t-esc="note['coef']" /></td>
+											<td class="text-center"><span t-esc="note['total']" /></td>
+											<td class="text-center"><span t-esc="note['rang']" /></td>
+											<td class="text-center"><span t-esc="note['prof']" /></td>
+											<td class="text-center"><span t-esc="note['appreciation']" /></td>
+											<td class="text-center"></td>
+										</tr>
+									</t>
+
+									<t t-if="note['type_matiere'] == 'sport' and o['Apt_sport'] == True">
+										<tr>
+											<td width="20%" class="text-gras">
+												<t t-esc="note['matiere']"/>
+											</td>
+											<td class="text-center" width="5%"><span t-esc="round(note['moy_classe'],2)" /></td>
+											<td class="text-center" width="5%"><span t-esc="round(note['note_compo'],2)" /></td>
+											<td class="text-center" width="5%"><span t-esc="round(note['moyenne'],2)" /></td>
+											<td class="text-center"><span t-esc="note['coef']" /></td>
+											<td class="text-center"><span t-esc="note['total']" /></td>
+											<td class="text-center"><span t-esc="note['rang']" /></td>
+											<td class="text-center"><span t-esc="note['prof']" /></td>
+											<td class="text-center"><span t-esc="note['appreciation']" /></td>
+											<td class="text-center"></td>
+										</tr>
+									</t>
+									<t t-if="note['type_matiere'] == 'sport' and o['Apt_sport'] != True">
+										<tr>
+											<td width="20%" class="text-gras">
+												<t t-esc="note['matiere']"/>
+											</td>
+											<td class="text-center" width="5%">-</td>
+											<td class="text-center" width="5%">-</td>
+											<td class="text-center" width="5%">-</td>
+											<td class="text-center">-</td>
+											<td class="text-center">-</td>
+											<td class="text-center">-</td>
+											<td class="text-center"><span t-esc="note['prof']" /></td>
+											<td class="text-center">Inapt(e)</td>
+											<td class="text-center"></td>
+										</tr>
+									</t>
+								</t>
+								<tr>
+									<th colspan="4" class="text-right">Total:</th>
+									<th><span t-esc="o['total_coef']" /></th>
+									<th><span t-esc="o['total_moyenne']" /></th>
+									<th colspan="4"></th>
+								</tr>
+							</tbody>
+						</table>
+						<br/>
+						<table class="MyTable">
+							<tr style="background: lightgray">
+								<th colspan="2">1er semestre</th><th colspan="2">2ème semestre</th>
+							</tr>
+							<tr>
+								<th class="text-right">Moy sur 20:</th><th><t t-esc="o['premier_trimestre']['moyenne']"/></th><th class="text-right">Moy sur 20</th><th><t t-esc="o['moyenne_sur_vingt']"/></th>
+							</tr>
+							<tr>
+								<th class="text-right">Rang:</th><th><t t-esc="o['premier_trimestre']['rang']"/>
+								</th><th class="text-right">Rang:</th><th><t t-esc="o['rang']" /></th>
+							</tr>
+							<tr>
+								<th class="text-right">Moy. maxi:</th><th><t t-esc="o['premier_trimestre']['moyenne_maxi']"/>
+								</th><th class="text-right">Moy. maxi:</th><th><t t-esc="moyMaxi" /></th>
+							</tr>
+							<tr>
+								<th class="text-right">Moy. mini:</th><th><t t-esc="o['premier_trimestre']['moyenne_mini']"/>
+								</th><th class="text-right">Moy. mini:</th><th><t t-esc="moyMini" /></th>
+							</tr>
+							<tr>
+								<th class="text-right">Moy. gle:</th><th><t t-esc="o['premier_trimestre']['moyenne_gle']"/>
+								</th><th class="text-right">Moy. gle:</th><th><t t-esc="moyGene" /></th>
+							</tr>
+						</table>
+						<br/>
+						<table class="MyTable">
+							<tr style="background: lightgray">
+								<th colspan="2" width="40%">Appréciation du travail</th>
+								<th width="60%" colspan="3">Assiduité/ponctualité</th>
+							</tr>
+							<tr>
+								<th width="30%" style="text-align:right;">Tableau d'Excellence:</th>
+								<th width="10%"><span t-esc="o['tableau_excellence']"/></th>
+								<th width="20%">Absences</th>
+								<th width="10%"><t t-esc="o['conduite']['absences']"/></th>
+								<th width="30%"></th>
+							</tr>
+							<tr>
+								<th width="30%" style="text-align:right;">Tableau d'Honneur + Félicitations:</th>
+								<th width="10%"><span t-esc="o['tableau_honneur_felicitation']"/></th>
+								<th width="20%">Retards</th>
+								<th width="10%"><t t-esc="o['conduite']['retard']"/></th>
+								<th width="30%"></th>
+							</tr>
+							<tr>
+								<th width="30%" style="text-align:right;">Tableau d'Honneur + Encouragements:</th>
+								<th width="10%"><span t-esc="o['tableau_honneur_encouragement']"/></th>
+								<th width="20%">Punition</th>
+								<th width="10%"><t t-esc="o['conduite']['punition']"/></th>
+								<th width="30%"></th>
+							</tr>
+							<tr>
+								<th width="30%" style="text-align:right;">Tableau d'Honneur:</th>
+								<th width="10%"><span t-esc="o['tableau_honneur']"/></th>
+								<th width="20%" colspan="3" style="background: lightgray">Appréciation et décision du conseil</th>
+
+							</tr>
+							<tr>
+								<th width="30%" style="text-align:right;">Avertissement:</th>
+								<th width="10%"><span t-esc="o['avertissement']"/></th>
+								<th width="20%" colspan="3"></th>
+							</tr>
+							<tr>
+								<th width="30%" style="text-align:right;">Blâme:</th>
+								<th width="10%"><span t-esc="o['blame']"/></th>
+								<th width="20%" colspan="3"></th>
+							</tr>
+						</table>
+						<br/>
+						<p style="text-align:center;"><i class="text-gras">Fait à <span t-esc="ville" />, le <span t-esc="date_signature" /> </i></p>
+
+						<table style="text-align: center;" width="100%">
+							<tr>
+								<td>Professeur titulaire</td><td width="40%"></td><td><span t-esc="titre_chef_etablissement"/></td>
+							</tr>
+							<tr height="80">
+								<td></td><td widtd="40%"></td><td></td>
+							</tr>
+							<tr>
+								<td><span class="text-gras" t-esc="prof" /></td>
+								<td width="40%"></td><td><span class="text-gras" t-esc="chef_etablissement" /></td>
+							</tr>
+						</table>
+						<!--  -->
+						<p style="page-break-before:always;"></p>
+						<!-- <p style="page-break-after:always;"></p> -->
+					</div>
+				</t>
+			</t>
+		</template>
+	</odoo>

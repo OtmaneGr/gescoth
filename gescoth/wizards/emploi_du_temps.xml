@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="emploi_du_temps_form_view">
+		<field name="name">Impression de l'emploi du temps</field>
+		<field name="model">gescoth.emploi.wizard</field>
+		<field name="arch" type="xml">
+			<form string="Impression de l'emploi du temps">
+				<group>
+					<group>
+						<field name ="type_emploi_du_temp"/>
+					</group>
+					<group>
+						<field name ="professeur_id"/>
+                        <field name ="classe_id"/>
+					</group>
+				</group>
+				<footer>
+					<button name="imprimer_emploi_du_temps" type="object" icon="fa-print" string="Imprimer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="impression_emploi_du_temps" model="ir.actions.act_window">
+		<field name="name">Impression de l'emploi du temps</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gescoth.emploi.wizard</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="emploi_du_temps_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="impression_emploi_du_temps_scolaire_menu" 
+		parent="gescoth_eleve_menu" 
+		name="Impression d'emploi du temps"
+		action="impression_emploi_du_temps"
+	/>
+</odoo>

@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="gescoth_matiere_menu_action" model="ir.actions.act_window">
+			<field name="name">Matière</field>
+			<field name="res_model">gescoth.matiere</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première matière
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_matiere_tree" model="ir.ui.view">
+			<field name="name">gescoth.matiere.tree</field>
+			<field name="model">gescoth.matiere</field>
+			<field name="arch" type="xml">
+				<tree string="Matières" editable="bottom">
+					<field name="name"/>
+					<field name="nom_abrege"/>
+					<field name="user_abrege"/>
+					<field name="type_matiere"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_professeur_menu_action" model="ir.actions.act_window">
+			<field name="name">Professeur</field>
+			<field name="res_model">gescoth.professeur</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier professeur
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_filiere_menu_action" model="ir.actions.act_window">
+			<field name="name">Filière</field>
+			<field name="res_model">gescoth.filiere</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première filière
+				</p>
+			</field>
+		</record>
+
+
+		<record id="gescoth_classe_menu_action" model="ir.actions.act_window">
+			<field name="name">Classe</field>
+			<field name="res_model">gescoth.classe</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première classe
+				</p>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="matiere_form_view">
+			<field name="name">Matière</field>
+			<field name="model">gescoth.matiere</field>
+			<field name="arch" type="xml">
+				<form string="Matière">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="nom_abrege"/>
+							<field name="user_abrege"/>
+							<field name="type_matiere"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="professeur_form_view">
+			<field name="name">Professeur</field>
+			<field name="model">gescoth.professeur</field>
+			<field name="arch" type="xml">
+				<form string="Matière">
+					<header>
+						<button name="imprimer_attestion" type="object" string="Envoyer l'attestion de prise de service"/>
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<button name="liste_emploi_du_temp" type="object" class="oe_stat_button" icon="fa-calendar" context="{'default_eleve_id':active_id, 'default_type_conduite':'punition'}">
+								<field widget="statinfo" name="liste_emploi_du_temp_total" string="Emploi du temps" />
+							</button>
+							<button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" context="{'default_eleve_id':active_id}">
+                				<field name="active" widget="boolean_button"/>
+                			</button>
+						</div>
+					
+						<field name="photo" widget="image" class="oe_avatar oe_right"/>
+						<div class="col-8">
+							<h1><field name="name" placeholder="Nom et prénom(s)"/></h1>
+							<group>
+								<field name="matricule"/>
+							</group>
+						</div>
+						<notebook>
+							<page name="identite" string="Informations générales">
+								<group>
+									<group>
+										<field name="date_naissance"/>
+										<field name="lieu_naissance"/>
+										<field name="sexe"/>
+										<field name="telephone"/>
+									</group>
+									<group>
+										<field name="email"/>
+										<field name="adresse"/>
+										<field name="date_service"/>
+										<field name="statut"/>
+									</group>
+								</group>
+							</page>
+							<page string="Matières enseignées">
+								<field name="matieres"/>
+							</page>
+							<page name="salaire" string="Informations salariales">
+								<group>
+									<group>
+										<field name="salaire_base"/>
+										<field name="taux_horaire"/>
+									</group>
+								</group>
+							</page>
+							<page name="heure_sup" string="Heures supplémentaires">
+								<field name="heure_sup_ids"/>
+								<!-- <field name="emploi_ids"/> -->
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="activity_ids" widget="mail_activity"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="filiere_form_view">
+			<field name="name">Filière</field>
+			<field name="model">gescoth.filiere</field>
+			<field name="arch" type="xml">
+				<form string="Filière">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="specialite"/>
+						</group>
+						<notebook>
+							<page string="Liste des classe">
+								<tree>
+									<field name="classe_ids"/>
+								</tree>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="gescoth_matiere_tree_view" model="ir.ui.view">
+			<field name="name">Matiere Tree</field>
+			<field name="model">gescoth.matiere</field>
+			<field name="arch" type="xml">
+				<tree string="Student" editable="bottom">
+					<field name="name"/>
+					<field name="nom_abrege"/>
+					<field name="user_abrege"/>
+					<field name="type_matiere"/>
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="gescoth_professeur_tree_view" model="ir.ui.view">
+			<field name="name">Professeur Tree</field>
+			<field name="model">gescoth.professeur</field>
+			<field name="arch" type="xml">
+				<tree string="Professeur">
+					<field name="name"/>
+					<field name="matricule"/>
+					<field name="date_naissance"/>
+					<field name="lieu_naissance"/>
+					<field name="sexe"/>
+					<field name="telephone"/>
+					<field name="email"/>
+					<field name="adresse"/>
+					<field name="statut"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_professeur_search_view" model="ir.ui.view">
+		   <field name="name">Professeur Search View</field>
+		   <field name="model">gescoth.professeur</field>
+		   <field name="arch" type="xml">
+		       <search string="Rechercher les professeurs">
+		           <field name="name"/>
+		           <field name="statut"/>
+		           <field name="sexe"/>
+		           <filter string="Masculin" name="masculin" domain="[('sexe','=','masculin')]"/>
+		           <filter string="Féminin" name="feminin" domain="[('sexe','=','feminin')]"/>
+		           <filter string="Volontaire" name="statut" domain="[('statut','=','volontaire')]"/>
+		           <filter string="Permanent" name="statut" domain="[('statut','=','permanent')]"/>
+		           <filter string="Partiel" name="statut" domain="[('statut','=','partiel')]"/>
+		           <group expand="1" string="Group By">
+		               <filter string="Sexe" name="sexe" context="{'group_by':'sexe'}"/>
+		               <filter string="Statut" name="statut" context="{'group_by':'statut'}"/>
+		           </group>
+		       </search>
+		   </field>
+		</record>
+
+		<record id="gescoth_filiere_tree_view" model="ir.ui.view">
+			<field name="name">Filiere Tree</field>
+			<field name="model">gescoth.filiere</field>
+			<field name="arch" type="xml">
+				<tree string="Student">
+					<field name="name"/>
+					<field name="specialite"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="classe_form_view">
+			<field name="name">Classe</field>
+			<field name="model">gescoth.classe</field>
+			<field name="arch" type="xml">
+				<form string="Classe">
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+                			<button name="liste_des_eleves" type="object" context="{'default_classe':active_id}" class="oe_stat_button" icon="fa-graduation-cap">
+                				<field widget="statinfo" name="liste_des_eleves_total" string="Elèves"/>
+                			</button>
+                		</div>
+						<group>
+							<group>
+								<field name="name"/>
+								<field name="description"/>
+								<field name="filiere"/>
+							</group>
+							<group>
+								<field name="professeur"/>
+								<field name="niveau_id"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Matières">
+								<field name="coeficient_ids"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="gescoth_classe_tree_view" model="ir.ui.view">
+			<field name="name">Classe Tree</field>
+			<field name="model">gescoth.classe</field>
+			<field name="arch" type="xml">
+				<tree string="Student">
+					<field name="name"/>
+					<field name="filiere"/>
+					<field name="professeur"/>
+					<field name="description"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_calsse_search_view" model="ir.ui.view">
+		   <field name="name">Classe Search View</field>
+		   <field name="model">gescoth.classe</field>
+		   <field name="arch" type="xml">
+		       <search string="Rechercher les professeurs">
+		           <field name="name"/>
+		           <field name="filiere"/>
+		           <field name="niveau_id"/>
+		           <field name="professeur"/>
+		           <group expand="1" string="Group By">
+		               <filter string="Filiere" name="filiere" context="{'group_by':'filiere'}"/>
+		               <filter string="Niveau" name="niveau_id" context="{'group_by':'niveau_id'}"/>
+		           </group>
+		       </search>
+		   </field>
+		</record>
+		<record id="gescoth_horaire_menu_action" model="ir.actions.act_window">
+			<field name="name">Horaire</field>
+			<field name="res_model">gescoth.horaire</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Pas de donnée à afficher
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_horaire_tree_view" model="ir.ui.view">
+			<field name="name">Horaire Tree</field>
+			<field name="model">gescoth.horaire</field>
+			<field name="arch" type="xml">
+				<tree string="Horaire">
+					<field name="name"/>
+					<field name="heure_debut" widget="float_time"/>
+					<field name="heure_fin" widget="float_time"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="horaire_form_view">
+			<field name="name">Horaire form</field>
+			<field name="model">gescoth.horaire</field>
+			<field name="arch" type="xml">
+				<form string="Classe">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+								<field name="heure_debut" widget="float_time"/>
+								<field name="heure_fin" widget="float_time"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="gescoth_emploi_temps_menu_action" model="ir.actions.act_window">
+			<field name="name">Horaire</field>
+			<field name="res_model">gescoth.emploi.temps</field>
+		
+			<field name="view_mode">tree,form,pivot</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Pas de donnée à afficher
+				</p>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="emploi_form_view">
+			<field name="name">Emploi du temps form</field>
+			<field name="model">gescoth.emploi.temps</field>
+			<field name="arch" type="xml">
+				<form string="Classe">
+					<sheet>
+						<group>
+							<group>
+								<field name="jour"/>
+								<field name="classe_id"/>
+								<field name="professeur_id"/>
+								<field name="matiere_id"/>
+							</group>
+							<group>
+								<field name="horaire_id"/>
+								<field name="heure_debut" widget="float_time"/>
+								<field name="heure_fin" widget="float_time"/>
+								<field name="annee_scolaire_id"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="gescoth_emploi_temps_tree_view" model="ir.ui.view">
+			<field name="name">Horaire Tree</field>
+			<field name="model">gescoth.emploi.temps</field>
+			<field name="arch" type="xml">
+				<tree string="Emploi du temps">
+					<field name="jour"/>
+					<field name="classe_id"/>
+					<field name="professeur_id"/>
+					<field name="heure_debut" widget="float_time"/>
+					<field name="heure_fin" widget="float_time"/>
+					<field name="annee_scolaire_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_emploi_temp_pivot_view" model="ir.ui.view">
+			<field name="name">Emploi du temps Pivot</field>
+			<field name="model">gescoth.emploi.temps</field>
+			<field name="arch" type="xml">
+				<pivot string="Emploi du temps">
+					<field name="professeur_id" type="row"/>
+					<field name="matiere_id" type="row"/>
+					<field name="classe_id" type="col"/>
+					<field name="jour" type="col"/>
+					<field name="heure_debut" type="measure" widget="float_time"/>
+					<field name="heure_fin" type="measure" widget="float_time"/>
+				</pivot>
+			</field>
+		</record>
+
+		<record id="gescoth_niveau_menu_action" model="ir.actions.act_window">
+			<field name="name">Niveau</field>
+			<field name="res_model">gescoth.niveau</field>
+		
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier niveau
+				</p>
+				<i>
+					Cliquez sur le bonton créer pour enregistrer un niveau
+				</i>
+			</field>
+		</record>
+
+		<record id="gescoth_niveau_tree_view" model="ir.ui.view">
+			<field name="name">Niveau Tree</field>
+			<field name="model">gescoth.niveau</field>
+			<field name="arch" type="xml">
+				<tree string="Niveau">
+					<field name="name"/>
+					<field name="frais_inscription"/>
+					<field name="frais_formation"/>
+					<field name="frais_internant"/>
+					<field name="frais_examen"/>
+					<field name="autres_frais"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="niveau_form_view">
+			<field name="name">Niveau from</field>
+			<field name="model">gescoth.niveau</field>
+			<field name="arch" type="xml">
+				<form string="Niveau">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Frais d'étude">
+								<group>
+									<group>
+										<field name="frais_inscription"/>
+										<field name="frais_formation"/>
+										<field name="frais_internant"/>
+									</group>
+									<group>
+										<field name="frais_examen"/>
+										<field name="autres_frais"/>
+										<field name="frais_total"/>
+									</group>
+								</group>
+							</page>
+							<page string="Classes">
+								<field name="classe_ids"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- evenement -->
+		<record id="gescoth_evenement_action" model="ir.actions.act_window">
+			<field name="name">Evénement</field>
+			<field name="res_model">gescoth.evenement</field>
+		
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier évènement
+				</p>
+				<i>
+					Cliquez sur le bonton créer pour enregistrer un évènement
+				</i>
+			</field>
+		</record>
+		<record id="gescoth_evenement_tree" model="ir.ui.view">
+			<field name="name">gescoth.evenement.tree</field>
+			<field name="model">gescoth.evenement</field>
+			<field name="arch" type="xml">
+				<tree string="Evénement">
+					<field name="name" />
+					<field name="date_debut" />
+					<field name="date_fin" />
+					<field name="maxi_personne" />
+					<field name="personnel_id" />
+					<field name="nombre_limite" />
+					<field name="nombre_peronne" />
+					<field name="participant_ids" />
+				</tree>
+			</field>
+		</record>
+		<record id="gescoth_evenement_form" model="ir.ui.view">
+			<field name="name">gescoth.evenement.form</field>
+			<field name="model">gescoth.evenement</field>
+			<field name="arch" type="xml">
+				<form string="Evénement">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" />
+								<field name="date_debut" />
+								<field name="date_fin" />
+								<field name="maxi_personne" />
+								
+							</group>
+							<group>
+								<field name="nombre_limite" />
+								<field name="nombre_peronne" />
+								<field name="personnel_id" />
+							</group>
+						</group>
+						<notebook>
+							<page name="participant" string="Participants">
+								<field name="participant_ids" />
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="activity_ids" widget="mail_activity"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+<!-- Participants des évenement -->
+		<record id="gescoth_enevement_participant_tree" model="ir.ui.view">
+			<field name="name">gescoth.enevement.participant.tree</field>
+			<field name="model">gescoth.enevement.participant</field>
+			<field name="arch" type="xml">
+				<tree string="Participant" editable="top">
+					<field name="eleve_id" />
+					<field name="date_inscription" />
+					<field name="evement_id" />
+				</tree>
+			</field>
+		</record>
+		<!-- Kanban -->
+
+		<record id="heure_supplementaire_tree" model="ir.ui.view">
+			<field name="name">heure.supplementaire.tree</field>
+			<field name="model">gescoth.heure.suplementaire</field>
+			<field name="arch" type="xml">
+				<tree string="Heures supplémentaire">
+					<field name="annee_scolaire_id"/>
+					<field name="date_heure_sup"/>
+					<field name="nombre_heure"/>
+					<field name="moi_paie"/>
+					<field name="classe_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<menuitem
+			id="gescoth_ecole_menu"
+			parent="gescoth_menu"
+			name="Ecole"
+			/>
+
+		<menuitem
+			id="gescoth_matiere_menu"
+			parent="gescoth_ecole_menu"
+			name="Matière"
+			action="gescoth_matiere_menu_action"
+			/>
+
+		<menuitem
+			id="gescoth_professeur_menu"
+			parent="gescoth_ecole_menu"
+			name="Professeur"
+			action="gescoth_professeur_menu_action"
+			/>
+
+		<menuitem
+			id="gescoth_filiere_menu"
+			parent="gescoth_ecole_menu"
+			name="Filière"
+			action="gescoth_filiere_menu_action"
+			/>
+
+		<menuitem
+			id="gescoth_niveau_menu"
+			parent="gescoth_ecole_menu"
+			name="Niveau d'étude"
+			action="gescoth_niveau_menu_action"
+			/>
+		<menuitem
+			id="gescoth_classe_menu"
+			parent="gescoth_ecole_menu"
+			name="Classe"
+			action="gescoth_classe_menu_action"
+			/>
+		<menuitem
+			id="gescoth_horaire_menu"
+			parent="gescoth_ecole_menu"
+			name="Horaire"
+			action="gescoth_horaire_menu_action"
+			/>
+		<menuitem
+			id="gescoth_emploi_temps_menu"
+			parent="gescoth_ecole_menu"
+			name="Emploi du temps"
+			action="gescoth_emploi_temps_menu_action"
+			/>
+		<menuitem
+			id="gescoth_evenement_action_menu"
+			name="Evènement"
+			action="gescoth_evenement_action"
+			parent="gescoth_ecole_menu"
+			sequence=""/>
+	</data>
+</odoo>

@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="gescoth_eleve_menu_action" model="ir.actions.act_window">
+			<field name="name">Elèves</field>
+			<field name="res_model">gescoth.eleve</field>
+			<field name="view_mode">tree,form,kanban</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier élève
+				</p>
+				<i>
+					Cliquez sur le bonton créer pour enregistrer un élève
+				</i>
+			</field>
+		</record>
+		<record id="eleve_kanban_view" model="ir.ui.view">
+			<field name="name">gescoth.eleve.kanban</field>
+			<field name="model">gescoth.eleve</field>
+			<field name="arch" type="xml">
+				<kanban>
+					<field name="id"/>
+					<field name="photo"/>
+					<field name="name"/>
+					<templates>
+						<t t-name="kanban-box">
+							<div>
+								<h1><field name="name"/></h1>
+							</div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
+
+		<record id="info_medicales_tree" model="ir.ui.view">
+			<field name="name">info.medicales.tree</field>
+			<field name="model">gescoth.info.medicaux</field>
+			<field name="arch" type="xml">
+				<tree string="">
+					<field name="nom_medecin"/>
+					<field name="telephone_medecin"/>
+					<field name="date_visite"/>
+					<field name="oberserations"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="info_medicales_form" model="ir.ui.view">
+			<field name="name">info.medicales.form</field>
+			<field name="model">gescoth.info.medicaux</field>
+			<field name="arch" type="xml">
+				<form string="">
+					<sheet>
+						<group>
+							<group>
+								<field name="nom_medecin"/>
+								<field name="telephone_medecin"/>
+								<field name="email"/>
+							</group>
+							<group>
+								<field name="date_visite"/>
+								<field name="oberserations"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="eleve_form_view">
+	        <field name="name">Elève</field>
+	        <field name="model">gescoth.eleve</field>
+	        <field name="arch" type="xml">
+	            <form string="Elève">
+	            	<header>
+	            		<button name="envoyer_carte_eleve" string="Envoyer par mail" icon="fa-envelope-o" type="object" class="btn btn-primary"/>
+	            	</header>
+	                <sheet>
+                		<div class="oe_button_box" name="button_box">
+							<widget name="web_ribbon" title="Abandon" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                			<!-- <widget name="web_ribbon" title="Actived" bg_color="bg-success" attrs="{'invisible': [('active', '=', False)]}"/> -->
+							<button name="liste_des_absences" type="object" class="oe_stat_button" icon="fa-clock-o" context="{'default_eleve_id':active_id, 'default_type_conduite':'absence'}">
+                				<field widget="statinfo" name="liste_des_absences_total" string="Absences"/>
+                			</button>
+
+                			<button name="liste_des_retards" type="object" class="oe_stat_button" icon="fa-clock-o" context="{'default_eleve_id':active_id, 'default_type_conduite':'retard'}">
+                				<field widget="statinfo" name="liste_des_retards_total" string="Retards" />
+                			</button>
+
+                			<button name="liste_des_punitions" type="object" class="oe_stat_button" icon="fa-clock-o" context="{'default_eleve_id':active_id, 'default_type_conduite':'punition'}">
+                				<field widget="statinfo" name="liste_des_punitions_total" string="Punitions" />
+                			</button>
+
+                			<button name="liste_des_parents" type="object" class="oe_stat_button" icon="fa-user" context="{'default_eleve_id':active_id}">
+                				<field name="liste_des_parents_total" string="Parents" widget="statinfo"/>
+                			</button>
+                			<button name="liste_des_paiements" type="object" class="oe_stat_button" icon="fa-money" context="{'default_eleve_id':active_id}">
+                				<field name="paiement_total" string="Paiements" widget="statinfo"/>
+                			</button>
+                			<button name="liste_des_paiements" type="object" class="oe_stat_button" icon="fa-money" context="{'default_eleve_id':active_id}">
+                				<field name="total_reste_a_payer" string="Reste à payer" widget="statinfo"/>
+                			</button>
+                			<button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" context="{'default_eleve_id':active_id}">
+                				<field name="active" widget="boolean_button"/>
+                			</button>
+                		</div>
+            			<field name="photo" widget="image" class="oe_avatar oe_right"/>
+            			<div class="col-8">
+							<h1><field name="name"/></h1>
+							<h2>
+								<group>
+									<field name="nom_famille" placeholder="Nom de famille"/>
+									<field name="prenom" placeholder="Nom prénom(s)"/>
+								</group>
+							</h2>
+						</div>
+	                	<notebook>
+							<page name="eleve" string="Informations générales">
+								<group>
+									<group string="Identité">
+										<field name="date_naissance"/>
+										<field name="lieu_naissance"/>
+										<field name="sexe"/>
+										<field name="telephone"/>
+										<field name="email"/>
+										<field name="nationalite"/>
+										<field name="numero_cni"/>
+										<field name="adresse"/>
+									</group>
+									<group string="Informations scolaire">
+										<field name="date_inscription"/>
+										<field name="classe"/>
+										<field name="niveau_id"/>
+										<field name="statut"/>
+										<field name="Apt_sport"/>
+										<field name="responsable_id"/>
+									</group>
+								</group>
+							</page>
+							<page name="anterieur" string="Scolarité antérieur">
+								<field name="scolaire_anterieur_ids" />
+							</page>
+							<page name="medical" string="Informations médicaux">
+								<field name="info_medicaux_ids"/>
+							</page>
+							<page name="autres" string="Autres informations">
+								<group>
+									<group>
+										<field name="taille" />
+										<field name="groupe_sangin" />
+									</group>
+									<group>
+										<field name="date_arrive" />
+										<field name="derinier_etablissement" />
+									</group>
+								</group>
+							</page>
+						</notebook>
+	                </sheet>
+	                <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+	            </form>
+	        </field>
+	    </record>
+
+
+	    <record id="gescoth_eleve_tree_view" model="ir.ui.view">
+			<field name="name">Eleve Tree</field>
+			<field name="model">gescoth.eleve</field>
+			<field name="arch" type="xml">
+				<tree string="Student">
+					<field name="name"/>
+					<field name="nom_eleve"/>
+					<field name="date_naissance"/>
+					<field name="lieu_naissance"/>
+					<field name="nationalite"/>
+					<field name="sexe"/>
+					<field name="classe"/>
+					<field name="telephone"/>
+					<field name="Apt_sport"/>
+					<field name="absences"/>
+					<field name="retard"/>
+					<field name="punition"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_eleve_view" model="ir.ui.view">
+		   <field name="name">Eleve Search View</field>
+		   <field name="model">gescoth.eleve</field>
+		   <field name="arch" type="xml">
+		       <search string="Rechercher les élèves">
+		           <field name="name"/>
+		           <field name="nom_eleve"/>
+		           <field name="classe"/>
+		           <field name="date_inscription"/>
+		           <field name="statut"/>
+		           <filter string="Masculin" name="masculin" domain="[('sexe','=','masculin')]"/>
+		           <filter string="Féminin" name="feminin" domain="[('sexe','=','feminin')]"/>
+		           <group expand="1" string="Group By">
+		               <filter string="Matricule" name="name" context="{'group_by':'name'}"/>
+		               <filter string="Classe" name="classe" context="{'group_by':'classe'}"/>
+		           </group>
+		       </search>
+		   </field>
+		</record>
+
+		<record id="gescoth_parent_eleve_menu_action" model="ir.actions.act_window">
+			<field name="name">Parent d'élève</field>
+			<field name="res_model">gescoth.parent.eleve</field>
+			<field name="view_mode">tree,form,kanban</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier parent d'élève
+				</p>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="parent_eleve_form">
+		    <field name="name">parent_eleve.form</field>
+		    <field name="model">gescoth.parent.eleve</field>
+		    <field name="arch" type="xml">
+		        <form string="Parent d'élève">
+		            <sheet>
+		                <group>
+		                    <group>
+			                    <field name="name"/>
+			                    <field name="email"/>
+			                    <field name="telephone"/>
+			                </group>
+			                <group>
+			                    <field name="Adresse"/>
+			                    <field name="eleve_id" widget="many2many_tags"/>
+			                </group>
+		                </group>
+		            </sheet>
+		        </form>
+		    </field>
+		</record>
+		<record id="gescoth_parent_eleve_tree_view" model="ir.ui.view">
+			<field name="name">Parent élève Tree</field>
+			<field name="model">gescoth.parent.eleve</field>
+			<field name="arch" type="xml">
+				<tree string="Student">
+					<field name="name"/>
+					<field name="email"/>
+					<field name="telephone"/>
+					<field name="Adresse"/>
+					<field name="eleve_id"/>
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="gescoth_eleve_conduite_action" model="ir.actions.act_window">
+			<field name="name">Conduite/Assiduité</field>
+			<field name="res_model">gescoth.conduite</field>
+			<field name="view_mode">tree,form,graph,pivot</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Pas de données à afficher
+				</p>
+			</field>
+		</record>
+
+		<record id="gescoth_conduite_tree_view" model="ir.ui.view">
+			<field name="name">Conduite Tree</field>
+			<field name="model">gescoth.conduite</field>
+			<field name="arch" type="xml">
+				<tree string="Conduite">
+					<field name="date_conduite"/>
+					<field name="saison"/>
+					<field name="type_conduite"/>
+					<field name="nombre_heure"/>
+					<field name="motif"/>
+					<field name="annee_scolaire_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="gescoth_conduite_pivot_view" model="ir.ui.view">
+			<field name="name">Conduite Pivot</field>
+			<field name="model">gescoth.conduite</field>
+			<field name="arch" type="xml">
+				<pivot string="Conduite">
+					<field name="eleve_id" type="row"/>
+					<field name="annee_scolaire_id" type="col"/>
+					<field name="saison" type="col"/>
+					<field name="type_conduite" type="col"/>
+					<field name="nombre_heure" type="measure"/>
+				</pivot>
+			</field>
+		</record>
+
+		<record id="gescoth_conduite_graph_view" model="ir.ui.view">
+			<field name="name">Conduite graph</field>
+			<field name="model">gescoth.conduite</field>
+			<field name="arch" type="xml">
+				<graph string="Conduite">
+					<field name="eleve_id"/>
+					<field name="annee_scolaire_id"/>
+					<field name="type_conduite"/>
+					<field name="nombre_heure" type="measure"/>
+				</graph>
+			</field>
+		</record>
+
+		 <record id="gescoth_conduite_search_view" model="ir.ui.view">
+		   <field name="name">Conduite Search View</field>
+		   <field name="model">gescoth.conduite</field>
+		   <field name="arch" type="xml">
+		       <search string="Conduite">
+		           <field name="eleve_id"/>
+		           <field name="annee_scolaire_id"/>
+		           <group expand="1" string="Group By">
+		               <filter string="Année scolaire" name="annee_scolaire_id" context="{'group_by':'annee_scolaire_id'}"/>
+		               <filter string="Eleve" name="eleve_id" context="{'group_by':'eleve_id'}"/>
+		           </group>
+		       </search>
+		   </field>
+		</record>
+
+		<record id="gescoth_scolarite_anterieur_menu_action" model="ir.actions.act_window">
+			<field name="name">Scolarité antérieur</field>
+			<field name="res_model">gescoth.scolarite.anterieur</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre premier parent d'élève
+				</p>
+			</field>
+		</record>
+
+		<record id="scolarite_anterieur_tree" model="ir.ui.view">
+			<field name="name">Scolarité antérieur</field>
+			<field name="model">gescoth.scolarite.anterieur</field>
+			<field name="arch" type="xml">
+				<tree string="Scolairté antérieure">
+					<field name="classe_id" />
+					<field name="annescolaire_id" />
+					<field name="etablisement" />
+					<field name="country_id" />
+					<field name="villde" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="scolarite_anterieur_form" model="ir.ui.view">
+			<field name="name">scolarite.anterieur.form</field>
+			<field name="model">gescoth.scolarite.anterieur</field>
+			<field name="arch" type="xml">
+				<form string="Scolairité antérieure">
+					<sheet>
+						<group>
+							<group>
+								<field name="classe_id" />
+								<field name="annescolaire_id" />
+								<field name="etablisement" />
+							</group>
+							<group>
+								<field name="country_id" />
+								<field name="villde" />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<menuitem
+			id="gescoth_menu"
+			name="GescoTh"
+			web_icon="gescoth,static/description/icon.png"
+			groups="gescoth.group_gescoth_admin"
+			/>
+		<menuitem
+			id="gescoth_eleve_menu"
+			parent="gescoth_menu"
+			name="Elève"
+			groups="gescoth.group_gescoth_eleve"
+			/>
+		<menuitem
+			id="gescoth_eleve_inscription_menu"
+			parent="gescoth_eleve_menu"
+			name="Inscription"
+			action="gescoth_eleve_menu_action"/>
+		<menuitem
+			id="gescoth_parent_eleve_menu"
+			parent="gescoth_eleve_menu"
+			name="Parents d'élèves"
+			action="gescoth_parent_eleve_menu_action"
+			/>
+		<menuitem
+			id="gescoth_conduite_eleve_menu"
+			parent="gescoth_eleve_menu"
+			name="Conduite/Assiduite"
+			action="gescoth_eleve_conduite_action"
+			/>
+
+	</data>
+</odoo>

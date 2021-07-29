@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="paperformat_fiche_note" model="report.paperformat">
+		<field name="name">Fiche de note A4</field>
+		<field name="default" eval="True"/>
+		<field name="orientation">Portrait</field>
+		<field name="margin_top">1</field>
+		<field name="margin_top">3</field>
+		<field name="header_line">TRUE</field>
+		<field name="dpi">90</field>
+	</record>
+	<report 
+		id = "fiche_note_report_view" 
+		model = "gescoth.liste.eleve" 
+		string = "Liste des élèves" 
+		report_type = "qweb-pdf" 
+		name = "gescoth.gescoth_fiche_note_report_view" 
+		file = "gescoth.gescoth_fiche_note_report_view"
+		paperformat="paperformat_fiche_note"
+	/>
+		<template id="gescoth_fiche_note_report_view">
+			<t t-call="web.html_container">
+				<!-- <t t-call="web.external_layout"> -->
+					<style>
+						.table{
+							border-collapse:collapse;
+							border:1px solid black;
+						}
+						.text-center{
+							text-align:center;
+						}
+					</style>
+					<div class="page">
+						<t t-if="entete">
+							<img t-attf-src="data:image/*;base64,{{entete}}" style="width: 100%; height:200px;"/>
+						</t>
+						<h3 class="text-center">FICHE DE NOTE</h3>
+						<p>Classe : <t t-esc="liste_des_eleves[0]['classe']" /></p>
+						<p>Matière : <t t-esc="liste_des_eleves[0]['matiere']" /></p>
+						<p>Professeur : <t t-esc="liste_des_eleves[0]['prof']" /></p>
+						<table width="100%" border="1" class="table">
+							<tr>
+								<th>Matricule</th><th width="45%">Nom et prénom(s)</th><th>Moy. classe</th><th>Note de compo</th><th>Moyenne</th>
+							</tr>
+							<t t-foreach="liste_des_eleves" t-as="eleve">
+								<tr>
+									<td><span t-esc="eleve['matricule']" /></td>
+									<td><span t-esc="eleve['nom_eleve']" /></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</t>
+						</table>
+					</div>
+				<!-- </t> -->
+			</t>
+		</template>
+	</odoo>

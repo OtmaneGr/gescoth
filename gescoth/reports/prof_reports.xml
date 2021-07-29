@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<report 
+		id = "attestion_report_view" 
+		model = "gescoth.professeur" 
+		string = "Attestion de prise de service" 
+		report_type = "qweb-pdf" 
+		name = "gescoth.prof_attestion_report_report_view" 
+		file = "gescoth.prof_attestion_report_report_view"
+		/>
+		<template id="prof_attestion_report_report_view">
+		<t t-call="web.html_container">
+			<t t-call="web.external_layout">
+				<t t-foreach="docs" t-as="o">
+					<style>
+						.size{
+							font-size:22px;
+						}
+					</style>
+	                <div class="page size">
+	                	<t t-set="chef_id" t-value="request.env['ir.config_parameter'].sudo().get_param('gescoth.chef_etablissement')"/>
+	                	<t t-set="lieu" t-value="request.env['ir.config_parameter'].sudo().get_param('gescoth.ville')"/>
+	                	<t t-set="chef" t-value="request.env['gescoth.personnel'].search([('id','=', chef_id)])"/>
+	                	<t t-set="company_id" t-value="request.env['res.company'].search([])"/>
+	                    <h2 style="text-align: center;">ATTESTATION DE PRISE DE SERVICE</h2>
+	                    <br/><br/><br/>
+	                    Je soussigné <b><t t-esc="chef.name"/></b>,
+	                    <t t-esc="chef.post_id.name"/> du <t t-esc="company_id.name"/>
+	                    <br/>
+	                    Atteste que le(a) nommé(e) <b><t t-esc="o.name"/></b> professeur chagé des matière suivantes:
+	                    
+	                    <t t-foreach="o.matieres" t-as="m">
+	                    	<b><t t-esc="m.name"/></b>, 
+	                    </t>
+
+	                    a pris service ce <t t-esc="o.date_service"/>
+	                    <br/>
+	                    En fois de quoi le présent attestion lui est délivrée pour service et valoir ce que de droit
+	                    <br/><br/>
+	                    <p class="text-center">Fait à <t t-esc="lieu"/> le <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></p>
+	                    <br/><br/>
+
+	                    <p  class="text-center">le(a)<t t-esc="chef.post_id.name"/></p>
+	                </div>
+	            </t>
+	        </t>
+	    </t>
+		</template>
+
+		<report 
+			id = "emploi_du_temps_report_view" 
+			model = "gescoth.professeur" 
+			string = "Emploi du temps" 
+			report_type = "qweb-pdf" 
+			name = "gescoth.prof_emploi_du_temps_report_report_view" 
+			file = "gescoth.prof_emploi_du_temps_report_report_view"
+		/>
+		<template id="prof_emploi_du_temps_report_report_view">
+		<t t-call="web.html_container">
+			<t t-call="web.external_layout">
+				<t t-foreach="docs" t-as="o">
+					<style>
+						.size{
+							font-size:22px;
+						}
+					</style>
+	                <div class="page size">
+	                	<h1 class="text-center">EMPLOI DU TEMPS</h1>
+						<table class="table table-sm">
+							<thead>
+								<tr>
+									<th>Jour</th>
+									<th>Classe</th>
+									<th>Matière</th>
+									<th>Horraire</th>
+									<th>Heure de debut</th>
+									<th>Heure de fin</th>
+								</tr>
+							</thead>
+							<tbody>
+								<t t-foreach="o.emploi_ids" t-as="em">
+									<tr>
+										<td><t t-esc="em.jour" /></td>
+										<td><t t-esc="em.classe_id" /></td>
+										<td><t t-esc="em.matiere_id" /></td>
+										<td><t t-esc="em.horaire_id" /></td>
+										<td><t t-esc="em.horaire_id" /></td>
+										<td><t t-esc="em.horaire_id" /></td>
+									</tr>
+								</t>
+							</tbody>
+						</table>
+					</div>
+	            </t>
+	        </t>
+	    </t>
+		</template>
+	</odoo>

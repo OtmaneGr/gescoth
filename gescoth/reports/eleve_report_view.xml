@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="paperformat_a6_gs" model="report.paperformat">
+		<field name="name">A6-GS</field>
+		<field name="default" eval="True"/>
+		<field name="format">custom</field>
+		<field name="page_height">148</field>
+		<field name="page_width">105</field>
+		<field name="orientation">Landscape</field>
+		<field name="margin_top">15</field>
+		<field name="margin_bottom">15</field>
+		<field name="margin_left">3</field>
+		<field name="margin_right">3</field>
+		<field name="header_line" eval="False"/>
+		<field name="header_spacing">3</field>
+		<field name="dpi">80</field>
+	</record>
+
+	<report 
+		id = "eleve_view_report" 
+		model = "gescoth.eleve" 
+		string = "Fiche élève" 
+		report_type = "qweb-pdf" 
+		name = "gescoth.report_eleve_view" 
+		file = "gescoth.report_eleve_view"
+		paperformat = "paperformat_a6_gs"
+		/>
+		<template id="report_eleve_view">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="web.external_layout">
+						<div class="page">
+							<h4 class="text-right">FICHE DE CONFIRMATION D'INSCRIPTION</h4>
+							<t t-if="o.photo">
+								<img t-att-src="image_data_uri(o.photo)" style="max-height: 150px; float:right; position:relative;" alt="Logo"/>
+							</t>
+							<br/><br/><br/>
+							<div>
+							<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px; position:relative;"/>
+								<table>
+									<tr><td>N° matricule : </td><td><span style="font-size: 23;" t-field="o.name"/></td></tr>
+									<tr><td>Nom et prénom(s) : </td><td><span style="font-size: 23;" t-field="o.nom_eleve" /></td></tr>
+									<tr><td>Lieu de naissance : </td><td><span style="font-size: 23;" t-field="o.lieu_naissance" /></td></tr>
+									<tr><td>Sexe : </td><td><span style="font-size: 23;" t-field="o.sexe" /></td></tr>
+									<tr><td>Classe : </td><td><span style="font-size: 23;" t-field="o.classe" /></td></tr>	
+								</table>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</odoo>

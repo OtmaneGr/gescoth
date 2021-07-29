@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="gescoth_actualite_menu_action" model="ir.actions.act_window">
+			<field name="name">Actualité</field>
+			<field name="res_model">gescoth.actualite</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première actualité
+				</p>
+			</field>
+		</record>
+		<menuitem 
+			id="gescoth_actualite_menu" 
+			parent="menu_gescoth_configuration" 
+			name="Actualité"
+			sequence="191"
+			action="gescoth_actualite_menu_action"
+			/>
+	</data>
+</odoo>

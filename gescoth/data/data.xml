@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record  id="apreciation_faible" model="gescoth.appreciation">
+			<field name="name">Faible</field>
+			<field name="inf">0</field>
+			<field name="sup">4</field>
+		</record>
+
+		<record  id="apreciation_tres_insufisant" model="gescoth.appreciation">
+			<field name="name">Très insufisant</field>
+			<field name="inf">4</field>
+			<field name="sup">8</field>
+		</record>
+
+		<record  id="apreciation_insufisant" model="gescoth.appreciation">
+			<field name="name">Insufisant</field>
+			<field name="inf">8</field>
+			<field name="sup">10</field>
+		</record>
+
+		<record  id="apreciation_passable" model="gescoth.appreciation">
+			<field name="name">Passable</field>
+			<field name="inf">10</field>
+			<field name="sup">12</field>
+		</record>
+
+		<record  id="apreciation_assey_bien" model="gescoth.appreciation">
+			<field name="name">Assey bien</field>
+			<field name="inf">12</field>
+			<field name="sup">14</field>
+		</record>
+
+		<record  id="apreciation_bien" model="gescoth.appreciation">
+			<field name="name">Bien</field>
+			<field name="inf">14</field>
+			<field name="sup">15</field>
+		</record>
+
+		<record  id="apreciation_tres_bien" model="gescoth.appreciation">
+			<field name="name">Très bien</field>
+			<field name="inf">15</field>
+			<field name="sup">18</field>
+		</record>
+
+		<record  id="apreciation_excellent" model="gescoth.appreciation">
+			<field name="name">Excéllent</field>
+			<field name="inf">18</field>
+			<field name="sup">20</field>
+		</record>
+	</data>
+
+	<data>
+		<record  id="apreciation_blame" model="gescoth.decision">
+			<field name="name">Blâme</field>
+			<field name="inf">0</field>
+			<field name="sup">7</field>
+		</record>
+
+		<record  id="apreciation_Avertissement" model="gescoth.decision">
+			<field name="name">Avertissement</field>
+			<field name="inf">7</field>
+			<field name="sup">8</field>
+		</record>
+
+		<record  id="apreciation_tableau_honneur" model="gescoth.decision">
+			<field name="name">Tableau d'Honneur</field>
+			<field name="inf">13</field>
+			<field name="sup">15</field>
+		</record>
+
+		<record  id="apreciation_tableau_encouragement" model="gescoth.decision">
+			<field name="name">Tableau d'Honneur + Encouragements</field>
+			<field name="inf">15</field>
+			<field name="sup">16</field>
+		</record>
+
+		<record  id="apreciation_tableau_felicitation" model="gescoth.decision">
+			<field name="name">Tableau d'Honneur + Félicitations</field>
+			<field name="inf">16</field>
+			<field name="sup">17</field>
+		</record>
+
+		<record  id="apreciation_tableau_excellence" model="gescoth.decision">
+			<field name="name">Tableau d'Excellence</field>
+			<field name="inf">17</field>
+			<field name="sup">20</field>
+		</record>
+
+	</data>
+
+	<data>
+		<record  id="matiere_francais" model="gescoth.matiere">
+			<field name="name">Français</field>
+		</record>
+
+		<record  id="matiere_anglais" model="gescoth.matiere">
+			<field name="name">Anglais</field>
+		</record>
+
+		<record  id="matiere_maths_fin" model="gescoth.matiere">
+			<field name="name">Mathématique financière</field>
+			<field name="nom_abrege">Maths-fin</field>
+		</record>
+
+		<record  id="matiere_maths_gene" model="gescoth.matiere">
+			<field name="name">Mathématiques générales</field>
+			<field name="nom_abrege">Maths-géné</field>
+		</record>
+
+		<record  id="matiere_histo-géo" model="gescoth.matiere">
+			<field name="name">Histoire géographie</field>
+			<field name="nom_abrege">Histo-géo</field>
+		</record>
+
+		<record  id="matiere_droit" model="gescoth.matiere">
+			<field name="name">Droit</field>
+		</record>
+
+		<record  id="matiere_bureautique" model="gescoth.matiere">
+			<field name="name">Bureautique</field>
+		</record>
+
+		<record  id="matiere_stenographie" model="gescoth.matiere">
+			<field name="name">Sténographie</field>
+		</record>
+
+		<record  id="matiere_informatique" model="gescoth.matiere">
+			<field name="name">Informatique</field>
+		</record>
+
+		<record  id="matiere_informatique" model="gescoth.matiere">
+			<field name="name">Informatique</field>
+		</record>
+
+		<record  id="matiere_comptabilite" model="gescoth.matiere">
+			<field name="name">Comptabilité</field>
+		</record>
+
+		<record  id="matiere_oma" model="gescoth.matiere">
+			<field name="name">OMA</field>
+		</record>
+
+		<record  id="matiere_dactylo" model="gescoth.matiere">
+			<field name="name">Dactylographie</field>
+		</record>
+
+		<record  id="matiere_allemand" model="gescoth.matiere">
+			<field name="name">Allemand</field>
+		</record>
+
+		<record  id="matiere_eco_entreprise" model="gescoth.matiere">
+			<field name="name">Economie et organisation des entreprises</field>
+			<field name="nom_abrege">EOE</field>
+		</record>
+	</data>
+	<data>
+		<record id="serieG1" model="gescoth.filiere">
+			<field name="name">G1</field>
+			<field name="specialite">Secrétariat</field>
+		</record>
+		<record id="serieG2" model="gescoth.filiere">
+			<field name="name">G2</field>
+			<field name="specialite">Technique de commerce</field>
+		</record>
+		<record id="serieG3" model="gescoth.filiere">
+			<field name="name">G3</field>
+			<field name="specialite">Comptabilité</field>
+		</record>
+		<record id="serieA4" model="gescoth.filiere">
+			<field name="name">A4</field>
+			<field name="specialite">Lithérature</field>
+		</record>
+		<record id="serieD" model="gescoth.filiere">
+			<field name="name">D</field>
+			<field name="specialite">Science</field>
+		</record>
+		<record id="serieC" model="gescoth.filiere">
+			<field name="name">C</field>
+			<field name="specialite">Science</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="annee_scolaire" model="gescoth.anneescolaire">
+			<field name="name">2021-2022</field>
+			<field name="date_rentree">2021-11-11</field>
+		</record>
+	</data>
+	<data>
+		<record id="gescoth_directeur_general" model="gescoth.poste">
+			<field name="name">Directeur général</field>
+		</record>
+
+		<record id="gescoth_comptable" model="gescoth.poste">
+			<field name="name">Comptable</field>
+		</record>
+
+		<record id="gescoth_directeur_financier" model="gescoth.poste">
+			<field name="name">Directeur financier</field>
+		</record>
+
+		<record id="gescoth_chef_traveau" model="gescoth.poste">
+			<field name="name">Chef travaux</field>
+		</record>
+
+		<record id="gescoth_secretaire_general" model="gescoth.poste">
+			<field name="name">Secrétaire général</field>
+		</record>
+
+		<record id="gescoth_proviseur" model="gescoth.poste">
+			<field name="name">Proviseur</field>
+		</record>
+
+		<record id="gescoth_surveillant" model="gescoth.poste">
+			<field name="name">Surveillant général</field>
+		</record>
+	</data>
+</odoo>

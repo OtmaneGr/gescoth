@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="paperformat_carte" model="report.paperformat">
+		<field name="name">Carte A4</field>
+		<field name="default" eval="True"/>
+		<field name="orientation">Landscape</field>
+		<field name="header_spacing">5</field>
+		<field name="margin_top">3</field>
+		<field name="margin_bottom">0</field>
+		<field name="dpi">90</field>
+	</record>
+	<report
+		id = "carte_report_view"
+		model = "gescoth.carte"
+		string = "Carte scolaire"
+		report_type = "qweb-pdf"
+		name = "gescoth.eleve_cate_report_view"
+		file = "gescoth.eleve_cate_report_view"
+		paperformat="paperformat_carte"
+		/>
+		<template id="eleve_cate_report_view">
+			<t t-call="web.html_container">
+				<style>
+					.carte{
+					width: 405px;
+					height:270px;
+					border: 1px solid lightgray;
+					float: left;
+					margin:10px;
+					padding:5px;
+					}
+				</style>
+				<t t-foreach="Liste_eleve" t-as="eleve">
+					<div class="page">
+						<div class="carte">
+							<t t-if="entete">
+								<img t-attf-src="data:image/*;base64,{{entete}}" style="width: 100%; height:60px;"/>
+							</t>
+							<hr width="100%"/>
+							<t t-if="eleve['photo']">
+								<img t-attf-src="data:image/*;base64,{{eleve['photo']}}" style="height: 100px; float:right; position:relative; width: 100px;"/>
+							</t>
+							<div style="text-align:center;">
+								<i>Carte scolaire d'identité</i><br/>
+								<i t-esc="eleve['anneescolaire']" />
+							</div>
+							<b><t t-esc="eleve['nom_eleve']" /><br/></b>
+							Né(e) le <t t-esc="eleve['date_naissance']" /><br/>
+							A <t t-esc="eleve['lieu_naissance']" /><br/>
+							<table width="100%">
+								<tr>
+									<td>Sexe </td>
+									<td>:&#160;<t t-esc="eleve['sexe']" /></td>
+									<td style="text-align:center;"><span t-esc="eleve['titre_chef_etablissement']"/></td>
+								</tr>
+								<tr>
+									<td>Classe </td>
+									<td>:&#160;<t t-esc="eleve['classe']" /></td>
+									<td rowspan="2"></td>
+								</tr>
+								<tr>
+									<td>Statut </td>
+									<td>:&#160;<t t-esc="eleve['statut']" /></td>
+									<!-- <td>2</td> -->
+								</tr>
+								<tr>
+									<td width="20%"></td>
+									<td width="35%"></td>
+									<td style="text-align:center;" width="45%"><t t-esc="eleve['chef_etablissement']" /></td>
+								</tr>
+							</table>
+							<div style="position:relative; flaot:right; bottom:100">
+								<t t-if="image_signature and imprimer_la_signature">
+									<img t-attf-src="data:image/*;base64,{{image_signature}}" style="height: 80px; float:right; width: 80px; "/>
+								</t>
+								<t t-if="image_cache and imprimer_le_cachet">
+									<img t-attf-src="data:image/*;base64,{{image_cache}}" style="height: 80px; float:right; width: 80px;"/>
+								</t>
+							</div>
+						</div>
+					</div>
+				</t>
+			</t>
+		</template>
+	</odoo>

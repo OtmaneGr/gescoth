@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<report 
+		id = "liste_eleve_report_view" 
+		model = "gescoth.liste.eleve" 
+		string = "Liste des élèves" 
+		report_type = "qweb-pdf" 
+		name = "gescoth.gescoth_eleve_list_report_view" 
+		file = "gescoth.gescoth_eleve_list_report_view"
+	/>
+		<template id="gescoth_eleve_list_report_view">
+			<t t-call="web.html_container">
+				<t t-call="web.external_layout">
+					<div class="page">
+						<h3 class="text-center">LISTE DES ELEVES</h3>
+						Classe : <t t-esc="liste_des_eleves[0]['classe']" /><br/>
+						Effectif : <t t-esc="len(liste_des_eleves)"/>
+						<table width="100%" border="1" class="table table-sm">
+							<tr>
+								<th width="10%">N° d'ordre</th>
+								<th width="20%">Matricule</th>
+								<th width="50%">Nom et prénom(s)</th>
+								<th width="20%">Sexe</th>
+							</tr>
+							<t t-foreach="liste_des_eleves" t-as="eleve">
+								<tr>
+									<td><t t-esc="liste_des_eleves.index(eleve)+1"/></td>
+									<td><span t-esc="eleve['matricule']" /></td>
+									<td><span t-esc="eleve['nom_eleve']" /></td>
+									<td><span t-esc="eleve['sexe']" /></td>
+								</tr>
+							</t>
+						</table>
+					</div>
+				</t>
+			</t>
+		</template>
+	</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="page_eleves" name="Eleve">
+		<t t-call="website.layout">
+			<div class="container">
+				<h1>Liste des élèves</h1>
+				<form>
+					<table class="table table-sm">
+						<tr>
+							<th>Nom et prénom(s)</th><th>Note</th>
+						</tr>
+						<t t-foreach="liste_des_eleves" t-as="eleve">
+							<tr>
+								<td><p t-esc="eleve.nom_eleve"/></td>
+								<td><input type="test" name="note"/></td>
+							</tr>
+						</t>
+					</table>
+					<input type="submit" values="Valider" class="btn btn-primary"/>
+				</form>
+			</div>
+		</t>
+	</template>
+</odoo> 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="paperformat_frenchcheck" model="report.paperformat">
+	    <field name="name">French Bank Check</field>
+	    <field name="default" eval="True"/>
+	    <field name="format">custom</field>
+	    <field name="page_height">148</field>
+	    <field name="page_width">105</field>
+	    <field name="orientation">Landscape</field>
+	    <field name="margin_top">15</field>
+	    <field name="margin_bottom">15</field>
+	    <field name="margin_left">3</field>
+	    <field name="margin_right">3</field>
+	    <field name="header_line" eval="False"/>
+	    <field name="header_spacing">3</field>
+	    <field name="dpi">80</field>
+	</record>
+
+	<report
+	    id = "eleve_recu_paiement_view_report"
+	    model = "gescoth.paiement.eleve"
+	    string = "Reçu de payement"
+	    report_type = "qweb-pdf"
+	    name = "gescoth.report_recu_paiement_view"
+	    file = "gescoth.report_recu_paiement_view"
+	    paperformat="paperformat_frenchcheck"
+	/>
+
+	<template id="report_recu_paiement_view">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="web.external_layout">
+	                <div class="page">
+	                    <h4 style="text-align: center;">REÇU DE PAIEMENT</h4>
+	                    <br/><br/>
+	                    <p class="text-center"><span t-field="o.numer_recu"/></p>
+	                    <table>
+							<tr><td>Date : </td><td><span style="font-size: 20;" t-field="o.date_paiement" /></td></tr>
+							<tr><td>N° matricule : </td><td><span style="font-size: 20;" t-field="o.eleve_id.name"/></td></tr>
+							<tr><td>Nom et prénom(s) : </td><td><span style="font-size: 20;" t-field="o.eleve_id.nom_eleve" /></td></tr>
+							<tr><td>Sexe : </td><td><span style="font-size: 20;" t-field="o.eleve_id.sexe" /></td></tr>
+							<tr>
+								<td>Montant : </td>
+								<td><span style="font-size: 20;" t-field="o.montant" widget='monetary' t-field-options="{'currency_field': 'currency_id'}" /></td></tr>
+							<br/>
+							<tr><th></th><th style="text-align:right; font-size: 20;">Signature du caissier</th></tr>
+						</table>
+	                </div>
+	            </t>
+			</t>
+		</t>
+	</template>
+</odoo>
