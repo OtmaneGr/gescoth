@@ -622,6 +622,6 @@
 			name="Evènement"
 			action="gescoth_evenement_action"
 			parent="gescoth_ecole_menu"
-			sequence=""/>
+			sequence="10"/>
 	</data>
 </odoo>
