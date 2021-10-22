@@ -154,11 +154,8 @@ class gescothEmploiTemps(models.Model):
     	('dimanche','Dimanche'),
     ], string="Jour", required=True,)
 
-    classe_id = fields.Many2one(
-        'gescoth.classe',
-        string='Classe',
-        required=True,
-    )
+    classe_ids = fields.Many2many('gescoth.classe', string="Classes")
+
     professeur_id = fields.Many2one(
         'gescoth.professeur',
         string='Professeur',
@@ -229,10 +226,10 @@ class GescothNiveau(models.Model):
     )
 
 
-    @api.onchange('frais_formation','frais_internant','frais_internant','frais_examen','autres_frais')
+    @api.onchange('frais_inscription','frais_formation','frais_internant','frais_internant','frais_examen','autres_frais')
     def _onchange_frais(self):
         for rec in self:
-            rec.frais_total = rec.frais_formation + rec.frais_internant + rec.frais_examen + rec.autres_frais
+            rec.frais_total = rec.frais_inscription + rec.frais_formation + rec.frais_internant + rec.frais_examen + rec.autres_frais
 
 class GescothEvenement(models.Model):
 

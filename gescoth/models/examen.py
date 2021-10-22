@@ -29,13 +29,16 @@ class GesocthNote(models.Model):
 	classe_id = fields.Many2one('gescoth.classe', string="Classe", required=True)
 	coeficient_id = fields.Many2one('gescoth.coeficient', string="Matière", required=True)
 	saison = fields.Selection([('s1','Semestre 1'),('s2','Semestre 2'),('s3','Semestre 3')], required=True)
+	note_intero =fields.Float(string="Intero", store=True,)
+	note_devoir =fields.Float(string="Devoir", store=True,)
+	moy_classe = fields.Float(string="Moy. classe", store=True,)
 	note_compo = fields.Float(string="Note de composition", store=True,)
-	moy_classe = fields.Float(string="Moyenne de classe", store=True,)
 	moyenne = fields.Float(string="Moyenne", default=0, store=True, )
 	rang = fields.Char(string="Rang", compute="CalculerRang",)
 	annee_scolaire = fields.Many2one('gescoth.anneescolaire', required=True, string="Année scolaire",)
 	professeur_id = fields.Many2one('gescoth.professeur', "Professeur")
 	appreciation = fields.Char(string='Appréciation', compute='Appreciation')
+	non_classe = fields.Boolean(string="Non classé")
     
 	# @api.onchange('note_compo','moy_classe')
 	def CalculerRang(self):
@@ -51,9 +54,13 @@ class GesocthNote(models.Model):
 			
 			rec.rang = Rang(rec.moyenne, rec.eleve_id.sexe, data)
 
-	    
+	@api.onchange('note_intero','note_devoir')
+	def onchange_note_intero_note_devoir(self):
+		for rec in self:
+			rec.moy_classe = (rec.note_intero + rec.note_devoir)/2
+	
 
-	@api.onchange('moy_classe','note_compo')	    
+	@api.onchange('moy_classe','note_compo','note_intero','note_devoir')	    
 	def Appreciation(self):
 		appr = self.env['gescoth.appreciation'].search([])
 		for rec in self:
@@ -63,15 +70,19 @@ class GesocthNote(models.Model):
 				if rec.moyenne >= 20:
 					rec.appreciation = 'Excellent'
 
-	@api.constrains('moy_classe','note_compo')
+	@api.constrains('note_intero','note_devoir','moy_classe','note_compo')
 	def check_notes(self):
 		for rec in self:
+			if rec.note_intero < 0 or rec.note_intero > 20:
+				raise ValidationError(_('La note de d\'interogation doit être entre 0 et 20. Vous avez taper : ' + str(rec.note_intero)))
+			if rec.note_devoir < 0 or rec.note_devoir > 20:
+				raise ValidationError(_('La note  de devoir doit être entre 0 et 20. Vous avez taper : ' + str(rec.note_devoir)))
 			if rec.moy_classe < 0 or rec.moy_classe > 20:
 				raise ValidationError(_('La moyenne de classe doit être entre 0 et 20. Vous avez taper : ' + str(rec.moy_classe)))
-			if rec.note_compo < 0 or rec.note_compo> 20:
-				raise ValidationError(_('La moyenne de classe doit être entre 0 et 20. Vous avez taper : ' + str(rec.note_compo)))
-
-	@api.onchange('note_compo','moy_classe')
+			if rec.note_compo < 0 or rec.note_compo > 20:
+				raise ValidationError(_('La note de composition doit être entre 0 et 20. Vous avez taper : ' + str(rec.note_compo)))
+			
+	@api.onchange('note_intero','note_devoir','note_compo','moy_classe')
 	def _onchange_note_compo(self):
 		for rec in self:
 			if rec.coeficient_id.est_facultative:
