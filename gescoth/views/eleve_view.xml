@@ -38,7 +38,7 @@
 			<field name="name">info.medicales.tree</field>
 			<field name="model">gescoth.info.medicaux</field>
 			<field name="arch" type="xml">
-				<tree string="">
+				<tree string="Informations médicaux" editable="bottom">
 					<field name="nom_medecin"/>
 					<field name="telephone_medecin"/>
 					<field name="date_visite"/>

@@ -135,7 +135,22 @@
 							</page>
 							<page name="heure_sup" string="Heures supplémentaires">
 								<field name="heure_sup_ids"/>
-								<!-- <field name="emploi_ids"/> -->
+							</page>
+							<page name="emploi_du_temp" string="Emploi du temps">
+								<field name="emploi_ids">
+									<tree editable="bottom">
+										<field name="jour"/>
+										<field name="classe_ids" widget="many2many_tags" />
+										<field name="professeur_id" 
+										invisible="1"
+										/>
+										<field name="matiere_id"/>
+										<field name="annee_scolaire_id"/>
+										<field name="horaire_id"/>
+										<field name="heure_debut" widget="float_time"/>
+										<field name="heure_fin" widget="float_time"/>
+									</tree>
+								</field>
 							</page>
 						</notebook>
 					</sheet>
@@ -361,7 +376,7 @@
 						<group>
 							<group>
 								<field name="jour"/>
-								<field name="classe_id"/>
+								<field name="classe_ids" widget="many2many_tags" />
 								<field name="professeur_id"/>
 								<field name="matiere_id"/>
 							</group>
@@ -383,7 +398,7 @@
 			<field name="arch" type="xml">
 				<tree string="Emploi du temps">
 					<field name="jour"/>
-					<field name="classe_id"/>
+					<field name="classe_ids" widget="many2many_tags" />
 					<field name="professeur_id"/>
 					<field name="heure_debut" widget="float_time"/>
 					<field name="heure_fin" widget="float_time"/>
@@ -399,7 +414,6 @@
 				<pivot string="Emploi du temps">
 					<field name="professeur_id" type="row"/>
 					<field name="matiere_id" type="row"/>
-					<field name="classe_id" type="col"/>
 					<field name="jour" type="col"/>
 					<field name="heure_debut" type="measure" widget="float_time"/>
 					<field name="heure_fin" type="measure" widget="float_time"/>
@@ -538,7 +552,7 @@
 				</form>
 			</field>
 		</record>
-<!-- Participants des évenement -->
+		<!-- Participants des évenement -->
 		<record id="gescoth_enevement_participant_tree" model="ir.ui.view">
 			<field name="name">gescoth.enevement.participant.tree</field>
 			<field name="model">gescoth.enevement.participant</field>
@@ -556,7 +570,7 @@
 			<field name="name">heure.supplementaire.tree</field>
 			<field name="model">gescoth.heure.suplementaire</field>
 			<field name="arch" type="xml">
-				<tree string="Heures supplémentaire">
+				<tree string="Heures supplémentaire" editable="bottom">
 					<field name="annee_scolaire_id"/>
 					<field name="date_heure_sup"/>
 					<field name="nombre_heure"/>
@@ -622,6 +636,6 @@
 			name="Evènement"
 			action="gescoth_evenement_action"
 			parent="gescoth_ecole_menu"
-			sequence="10"/>
+			sequence=""/>
 	</data>
 </odoo>

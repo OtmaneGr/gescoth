@@ -49,11 +49,14 @@
 					<field name="coeficient_id" readonly="1"/>
 					<field name="annee_scolaire" readonly="1"/>
 					<field name="saison" readonly="1"/>
-					<field name="note_compo"/>
+					<field name="note_intero"/>
+					<field name="note_devoir"/>
 					<field name="moy_classe"/>
+					<field name="note_compo"/>
 					<field name="moyenne" readonly="0"/>
 					<field name="appreciation" readonly="1"/>
 					<field name="rang" readonly="1"/>
+					<field name="non_classe"/>
 				</tree>
 			</field>
 		</record>
@@ -92,8 +95,10 @@
 					<field name="annee_scolaire" type="col"/>
 					<field name="saison" type="col"/>
 					<field name="coeficient_id" type="col"/>
-					<field name="note_compo" type="measure"/>
+					<field name="note_intero" type="measure"/>
+					<field name="note_devoir" type="measure"/>
 					<field name="moy_classe" type="measure"/>
+					<field name="note_compo" type="measure"/>
 					<field name="moyenne" type="measure"/>
 				</pivot>
 			</field>
@@ -107,8 +112,8 @@
 				<graph string="Conduite">
 					<field name="eleve_id"/>
 					<field name="annee_scolaire"/>
-					<field name="note_compo" type="measure"/>
 					<field name="moy_classe" type="measure"/>
+					<field name="note_compo" type="measure"/>
 					<field name="moyenne" type="measure"/>
 				</graph>
 			</field>
