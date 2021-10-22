@@ -20,7 +20,7 @@
 	/>
 		<template id="gescoth_fiche_note_report_view">
 			<t t-call="web.html_container">
-				<!-- <t t-call="web.external_layout"> -->
+				<t t-foreach="request.env['gescoth.coeficient'].search([])" t-as="coef">
 					<style>
 						.table{
 							border-collapse:collapse;
@@ -36,7 +36,7 @@
 						</t>
 						<h3 class="text-center">FICHE DE NOTE</h3>
 						<p>Classe : <t t-esc="liste_des_eleves[0]['classe']" /></p>
-						<p>Matière : <t t-esc="liste_des_eleves[0]['matiere']" /></p>
+						<p>Matière : <t t-esc="coef.matiere.name" /></p>
 						<p>Professeur : <t t-esc="liste_des_eleves[0]['prof']" /></p>
 						<table width="100%" border="1" class="table">
 							<tr>
@@ -53,7 +53,8 @@
 							</t>
 						</table>
 					</div>
-				<!-- </t> -->
+					<p style="page-break-after:always;"></p>
+				</t>
 			</t>
 		</template>
 	</odoo>

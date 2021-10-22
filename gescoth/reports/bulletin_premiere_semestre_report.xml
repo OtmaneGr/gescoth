@@ -80,11 +80,28 @@
 						}
 					</style>
 					<div class="page">
-						<t t-if="entete">
-							<img t-attf-src="data:image/*;base64,{{entete}}" style="width: 100%; height:200px;"/>
-						</t>
+						<table style="text-align='center';">
+                            <tr class="text-center">
+                                <td width="60%">
+                                    <p>MINISTERE DES ENSEIGNEMENTS PRIMAIRE,SECONDIARE,TECHNIQUE ET DE L'ARTISANAT</p>
+                                    DIRECTION REGIONALE DE L'EDUCATION(GOLF-LOME)
+                                </td>
+                                <td></td>
+                                <td width="30%">
+                                    REPUBLIQUE DU TOGO
+                                    <i>Travail - Liberté - Patrie</i>
+                                </td>
+                            </tr>
+                            <tr class="text-center">
+                                <td width="30%">
+                                    <b t-esc="request.env.company.name"></b><br/>
+									Tél.: <t t-esc="request.env.company.phone"/>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
 						<h2 style="text-align:center;">BULLETIN DE NOTES</h2>
-						<P style="text-align:center;">Premier semestre</P>
+						<p style="text-align:center;"><i>Premier semestre</i></p>
 
 						<table class="MyTable effectif" style="margin-left: 50%; text-align: center;">
 							<thead>
@@ -110,7 +127,7 @@
 						<table class="MyTable">
 							<thead>
 								<tr style="background-color:lightgray;">
-									<th>Matière</th><th>Moy Classe</th><th>Note de compo</th><th>Moyenne</th><th>Coef</th>
+									<th>Matière</th><th>Intero</th><th>Devoir</th><th>Moy Classe</th><th>Note de compo</th><th>Moy.</th><th>Coef</th>
 									<th>Total</th><th>Rang</th><th>Professeur</th><th>Appréciation</th><th>Signature</th>
 								</tr>
 							</thead>
@@ -121,6 +138,8 @@
 											<td width="20%" class="text-gras">
 												<t t-esc="note['matiere']"/>
 											</td>
+											<td class="text-center" width="5%"><span t-esc="round(note['note_intero'],2)" /></td>
+											<td class="text-center" width="5%"><span t-esc="round(note['note_devoir'],2)" /></td>
 											<td class="text-center" width="5%"><span t-esc="round(note['moy_classe'],2)" /></td>
 											<td class="text-center" width="5%"><span t-esc="round(note['note_compo'],2)" /></td>
 											<td class="text-center" width="5%"><span t-esc="round(note['moyenne'],2)" /></td>
@@ -138,6 +157,8 @@
 											<td width="20%" class="text-gras">
 												<t t-esc="note['matiere']"/>
 											</td>
+											<td class="text-center" width="5%"><span t-esc="round(note['note_intero'],2)" /></td>
+											<td class="text-center" width="5%"><span t-esc="round(note['note_devoir'],2)" /></td>
 											<td class="text-center" width="5%"><span t-esc="round(note['moy_classe'],2)" /></td>
 											<td class="text-center" width="5%"><span t-esc="round(note['note_compo'],2)" /></td>
 											<td class="text-center" width="5%"><span t-esc="round(note['moyenne'],2)" /></td>

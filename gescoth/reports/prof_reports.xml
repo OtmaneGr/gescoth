@@ -27,20 +27,22 @@
 	                    Je soussigné <b><t t-esc="chef.name"/></b>,
 	                    <t t-esc="chef.post_id.name"/> du <t t-esc="company_id.name"/>
 	                    <br/>
-	                    Atteste que le(a) nommé(e) <b><t t-esc="o.name"/></b> professeur chagé des matière suivantes:
+						
+	                    Atteste que le(a) nommé(e) <b><t t-esc="o.name"/></b>, professeur chagé des matières suivantes:
 	                    
 	                    <t t-foreach="o.matieres" t-as="m">
 	                    	<b><t t-esc="m.name"/></b>, 
 	                    </t>
 
-	                    a pris service ce <t t-esc="o.date_service"/>
+	                    a pris service ce <t t-esc="o.date_service"/> dans mon étabilissement.
 	                    <br/>
-	                    En fois de quoi le présent attestion lui est délivrée pour service et valoir ce que de droit
+						<br/>
+	                    En fois de quoi la présente attestion lui est délivrée pour service et valoir ce que de droit.
 	                    <br/><br/>
 	                    <p class="text-center">Fait à <t t-esc="lieu"/> le <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></p>
 	                    <br/><br/>
 
-	                    <p  class="text-center">le(a)<t t-esc="chef.post_id.name"/></p>
+	                    <p  class="text-center"><t t-esc="chef.post_id.name"/></p>
 	                </div>
 	            </t>
 	        </t>
@@ -81,11 +83,15 @@
 								<t t-foreach="o.emploi_ids" t-as="em">
 									<tr>
 										<td><t t-esc="em.jour" /></td>
-										<td><t t-esc="em.classe_id" /></td>
-										<td><t t-esc="em.matiere_id" /></td>
-										<td><t t-esc="em.horaire_id" /></td>
-										<td><t t-esc="em.horaire_id" /></td>
-										<td><t t-esc="em.horaire_id" /></td>
+										<td>
+											<t t-foreach="em.classe_ids" t-as="classe_id">
+												<t t-esc="classe_id.name" /> 
+											</t>
+										</td>
+										<td><t t-esc="em.matiere_id.name" /></td>
+										<td><t t-esc="em.horaire_id.name" /></td>
+										<td style="text-align:center;"><t t-esc="'%02d:%02d' % (int(em.heure_debut), em.heure_debut % 1 * 60)" /></td>
+										<td style="text-align:center;"><t t-esc="'%02d:%02d' % (int(em.heure_fin), em.heure_fin % 1 * 60)" /></td>
 									</tr>
 								</t>
 							</tbody>
