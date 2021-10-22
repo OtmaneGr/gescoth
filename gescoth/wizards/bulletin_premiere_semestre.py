@@ -60,6 +60,8 @@ class GescothBulletinPremierSemestre(models.TransientModel):
 				vals_note = {
 					'matiere' : matiere,
 					'type_matiere': note.coeficient_id.matiere.type_matiere,
+					'note_intero':note.note_intero,
+					'note_devoir':note.note_devoir,
 					'moy_classe':note.moy_classe,
 					'note_compo': note.note_compo,
 					'moyenne':note.moyenne,
@@ -68,6 +70,7 @@ class GescothBulletinPremierSemestre(models.TransientModel):
 					'rang':note.rang,
 					'appreciation':note.appreciation,
 					'prof':note.coeficient_id.professeur_id.name,
+					'non_classe': note.non_classe,
 				}
 				if note.coeficient_id.matiere.type_matiere == 'sport' and not el.Apt_sport:
 					pass

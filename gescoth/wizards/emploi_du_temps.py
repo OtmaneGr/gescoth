@@ -22,5 +22,5 @@ class GescothEmploiWizard(models.TransientModel):
         )
 
     def imprimer_emploi_du_temps(self):
-        pass
-        # return self.env.ref('gescoth.fiche_note_report_view').report_action(self, data=data)
+        data={}
+        return self.env.ref('gescoth.fiche_note_report_view').report_action(self, data=data)

@@ -15,7 +15,14 @@ class GescothFicheNote(models.TransientModel):
 	    'gescoth.professeur',
 	    string='Professeur',
 	)
-
+	saison = fields.Selection([
+		('s1','Semestre 1'),
+		('s2','Semestre 2'),
+		('s3','Semestre 3')
+		], 
+		required=True,
+	)
+	toutes_les_matiere = fields.Boolean(string="Imprimer pour toutes les matières")
 	def imprimer_fiche_note(self):
 		data = {}
 		liste_des_eleves = []

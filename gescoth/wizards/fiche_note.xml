@@ -12,6 +12,7 @@
 						<field name="prof_id"/>
 					</group>
 					<group>
+						<field name ="toutes_les_matiere"/>
 						<field name ="matiere_id"/>
 					</group>
 				</group>
